@@ -50,7 +50,7 @@ __author__ = 'Hong Minhee' # http://dahlia.kr/
 __email__ = 'dahlia' "@" 'stylesha.re'
 __license__ = 'MIT License'
 __version__ = '0.1.0'
-__copyright__ = '2011, StyleShare, Inc.'
+__copyright__ = '2011, StyleShare, Inc'
 
 
 class Service(object):

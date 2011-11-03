@@ -1,5 +1,10 @@
 from __future__ import with_statement
 from distutils.core import setup
+import distutils.cmd
+import os
+import os.path
+import tempfile
+import shutil
 import wsgioauth2
 
 try:
@@ -7,6 +12,35 @@ try:
         long_description = fd.read()
 except IOError:
     long_description = None
+
+
+class upload_doc(distutils.cmd.Command):
+    """Uploads the documentation to GitHub pages."""
+
+    description = __doc__
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        path = tempfile.mkdtemp()
+        build = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'build', 'sphinx', 'html')
+        os.chdir(path)
+        os.system('git clone git@github.com:StyleShare/wsgi-oauth2.git .')
+        os.system('git checkout gh-pages')
+        os.system('git rm -r .')
+        os.system('touch .nojekyll')
+        os.system('cp -r ' + build + '/* .')
+        os.system('git stage .')
+        os.system('git commit -a -m "Documentation updated."')
+        os.system('git push origin gh-pages')
+        shutil.rmtree(path)
+
 
 setup(name='wsgi-oauth2',
       description='Simple WSGI middleware for OAuth 2.0',
@@ -24,5 +58,6 @@ setup(name='wsgi-oauth2',
           'Programming Language :: Python :: 2.6',
           'Programming Language :: Python :: 2.7',
           'Topic :: Internet :: WWW/HTTP :: WSGI :: Middleware'
-      ])
+      ],
+      cmdclass={'upload_doc': upload_doc})
 
