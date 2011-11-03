@@ -20,6 +20,13 @@
 """:mod:`wsgioauth2` --- Simple WSGI middleware for OAuth 2.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+This module provides a simple WSGI middleware that requires the user to
+authenticate via the specific `OAuth 2.0`_ service e.g. Facebook_, Google_.
+
+.. _OAuth 2.0: http://oauth.net/2/
+.. _Facebook: http://www.facebook.com/
+.. _Google: http://www.google.com/
+
 """
 import random
 import urllib
@@ -39,11 +46,11 @@ try:
 except ImportError:
     import pickle
 
-__author__ = 'Hong Minhee <http://dahlia.kr/>'
+__author__ = 'Hong Minhee' # http://dahlia.kr/
 __email__ = 'dahlia' "@" 'stylesha.re'
 __license__ = 'MIT License'
 __version__ = '0.1.0'
-__copyright__ = 'Copyright 2011, StyleShare, Inc.'
+__copyright__ = '2011, StyleShare, Inc.'
 
 
 class Service(object):
