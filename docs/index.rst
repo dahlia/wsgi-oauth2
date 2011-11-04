@@ -6,6 +6,8 @@
 wsgi-oauth2
 ===========
 
+.. image:: http://oauth.net/images/oauth-2-sm.png
+
 This module provides a simple WSGI middleware that requires the user to
 authenticate via the specific `OAuth 2.0`_ service e.g. Facebook_, Google_.
 
