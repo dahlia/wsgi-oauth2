@@ -10,7 +10,7 @@ You can install the package via downloading from PyPI_::
 
     $ easy_install wsgi-oauth2
 
-Read the documentation_ as well:
+Read the documentation_ as well.
 
 .. _OAuth 2.0: http://oauth.net/2/
 .. _Facebook: http://www.facebook.com/
