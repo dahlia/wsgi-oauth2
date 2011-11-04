@@ -1,5 +1,8 @@
 from __future__ import with_statement
-from distutils.core import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 import distutils.cmd
 import os
 import os.path
@@ -43,14 +46,6 @@ class upload_doc(distutils.cmd.Command):
 
 
 cmdclass = {'upload_doc': upload_doc}
-
-
-try:
-    from sphinx.setup_command import BuildDoc
-except ImportError:
-    pass
-else:
-    cmdclass['build_sphinx'] = BuildDoc
 
 
 setup(name='wsgi-oauth2',
