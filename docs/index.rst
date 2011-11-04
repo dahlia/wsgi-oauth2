@@ -14,6 +14,34 @@ authenticate via the specific `OAuth 2.0`_ service e.g. Facebook_, Google_.
 .. _Google: http://www.google.com/
 
 
+Prerequisites
+-------------
+
+It requires Python 2.6 or higher. (Not tested on Python 3 or higher.)
+It has no dependencies for non standard libraries, but if there is an installed
+:mod:`simplejson` library, it will be used instead of the standard :mod:`json`
+package.
+
+
+Installation
+------------
+
+You can install the package via downloading from PyPI_:
+
+.. sourcecode:: console
+
+   $ pip install wsgi-oauth2
+
+If you want to use the bleeding edge, install it from the :ref:`Git repository
+<sourcecode>`:
+
+.. sourcecode:: console
+
+   $ pip install git+git://github.com/StyleShare/wsgi-oauth2.git
+
+.. _PyPI: http://pypi.python.org/pypi/wsgi-oauth2
+
+
 Predefined services
 -------------------
 
@@ -40,4 +68,38 @@ There are some predefined services.
 
 .. autoclass:: wsgioauth2.WSGIMiddleware
    :members:
+
+
+.. _sourcecode:
+
+Source code
+-----------
+
+The source code is available under MIT license. Check out from the GitHub_:
+
+.. sourcecode:: console
+
+   $ git clone git://github.com/StyleShare/wsgi-oauth2.git
+
+We welcome pull requests as well!
+
+.. _GitHub: https://github.com/StyleShare/wsgi-oauth2
+
+
+Bugs
+----
+
+If you found bugs or want to propose some improvement ideas, use the
+`issue tracker`_.
+
+.. _issue tracker: https://github.com/StyleShare/wsgi-oauth2/issues
+
+
+Author
+------
+
+The package is written by `Hong Minhee`_ for StyleShare_.
+
+.. _Hong Minhee: http://dahlia.kr/
+.. _StyleShare: https://stylesha.re/
 
