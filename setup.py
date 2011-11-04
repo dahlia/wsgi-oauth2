@@ -42,6 +42,17 @@ class upload_doc(distutils.cmd.Command):
         shutil.rmtree(path)
 
 
+cmdclass = {'upload_doc': upload_doc}
+
+
+try:
+    from sphinx.setup_command import BuildDoc
+except ImportError:
+    pass
+else:
+    cmdclass['build_sphinx'] = BuildDoc
+
+
 setup(name='wsgi-oauth2',
       description='Simple WSGI middleware for OAuth 2.0',
       long_description=long_description,
@@ -60,5 +71,5 @@ setup(name='wsgi-oauth2',
           'Programming Language :: Python :: 2.7',
           'Topic :: Internet :: WWW/HTTP :: WSGI :: Middleware'
       ],
-      cmdclass={'upload_doc': upload_doc})
+      cmdclass=cmdclass)
 
