@@ -357,6 +357,12 @@ class WSGIMiddleware(object):
                 signed_session = base64.urlsafe_b64encode(signed_session)
                 set_cookie = '{0}="{1}"; Path=/'.format(self.cookie,
                                                         signed_session)
+                if 'expires_in' in access_token:
+                    expires_in = int(access_token['expires_in'])
+                    from datetime import datetime, timedelta
+                    expires_at = datetime.utcnow() + timedelta(seconds=expires_in)
+                    expires = expires_at.strftime('%a, %d %b %Y %T GMT')
+                    set_cookie += '; Expires={0}'.format(expires)
                 return self.redirect(query_dict.get('state', [''])[0],
                                      start_response,
                                      headers={'Set-Cookie': set_cookie})
