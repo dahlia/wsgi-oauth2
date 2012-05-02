@@ -355,8 +355,13 @@ class WSGIMiddleware(object):
                 sig = hmac.new(self.secret, session, hashlib.sha1).hexdigest()
                 signed_session = '{0},{1}'.format(sig, session)
                 signed_session = base64.urlsafe_b64encode(signed_session)
-                set_cookie = '{0}="{1}"; Path=/'.format(self.cookie,
-                                                        signed_session)
+                set_cookie = Cookie.SimpleCookie()
+                set_cookie[self.cookie] = signed_session
+                set_cookie[self.cookie]['path'] = '/'
+                if 'expires_in' in access_token:
+                    expires_in = int(access_token['expires_in'])
+                    set_cookie[self.cookie]['expires'] = expires_in
+                set_cookie = set_cookie[self.cookie].OutputString()
                 return self.redirect(query_dict.get('state', [''])[0],
                                      start_response,
                                      headers={'Set-Cookie': set_cookie})
