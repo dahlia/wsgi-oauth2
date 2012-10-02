@@ -53,6 +53,20 @@ There are some predefined services.
 
 .. autodata:: wsgioauth2.facebook
 
+.. autodata:: wsgioauth2.github
+
+
+Basic usage
+-----------
+
+::
+
+    from myapp import app
+    from wsgioauth2 import github
+
+    client = github.make_client(client_id='...', client_secret='...')
+    app = client.wsgi_middleware(app, secret='hmac*secret')
+
 
 .. module:: wsgioauth2
 
@@ -105,3 +119,30 @@ The package is written by `Hong Minhee`_ for StyleShare_.
 .. _Hong Minhee: http://dahlia.kr/
 .. _StyleShare: https://stylesha.re/
 
+
+Changelog
+---------
+
+Version 0.1.2
+'''''''''''''
+
+To be released.
+
+- Add predefined GitHub service (``wsgioauth2.github``).
+
+
+Version 0.1.1
+'''''''''''''
+
+Released on May 2, 2012.
+
+- Set cookie with ``expires`` option if the response contains ``expires_in``
+  parameter.  [`#2`__ by mete0r]
+
+__ https://github.com/StyleShare/wsgi-oauth2/pull/2
+
+
+Version 0.1.0
+'''''''''''''
+
+Released on November 4, 2011.  First version.
