@@ -221,10 +221,7 @@ class AccessToken(dict):
         :type headers: :class:`collections.Mapping`
 
         """
-        if '?' in url:
-            url += '&access_token=' + self.access_token
-        else:
-            url += '?access_token=' + self.access_token
+        url += '&' if '?' in url else '?' + 'access_token=' + self.access_token
         request = urllib2.Request(url, headers=headers)
         return urllib2.urlopen(request)
 
