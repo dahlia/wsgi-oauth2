@@ -404,3 +404,10 @@ google = Service(
     access_token_endpoint='https://accounts.google.com/o/oauth2/token'
 )
 
+#: (:class:`Service`) The predefined service for GitHub_.
+#:
+#: .. _GitHub: https://github.com/
+github = Service(
+    authorize_endpoint='https://github.com/login/oauth/authorize',
+    access_token_endpoint='https://github.com/login/oauth/access_token'
+)

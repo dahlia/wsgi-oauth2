@@ -123,6 +123,14 @@ The package is written by `Hong Minhee`_ for StyleShare_.
 Changelog
 ---------
 
+Version 0.1.2
+'''''''''''''
+
+To be released.
+
+- Add predefined GitHub service (``wsgioauth2.github``).
+
+
 Version 0.1.1
 '''''''''''''
 
