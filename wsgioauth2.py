@@ -391,15 +391,15 @@ class WSGIMiddleware(object):
         return self.application(environ, start_response)
 
 
-#: (:class:`Service`) The predefined service definition for Facebook_.
+#: (:class:`Service`) The predefined service for Facebook_.
 #:
-#: .. _Facebook: http://www.facebook.com/
+#: .. _Facebook: https://www.facebook.com/
 facebook = Service(
     authorize_endpoint='https://www.facebook.com/dialog/oauth',
     access_token_endpoint='https://graph.facebook.com/oauth/access_token'
 )
 
-#: (:class:`Service`) The predefined service definition for Google_.
+#: (:class:`Service`) The predefined service for Google_.
 #:
 #: .. _Google: http://www.google.com/
 google = Service(
