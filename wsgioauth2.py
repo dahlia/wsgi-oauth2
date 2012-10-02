@@ -1,4 +1,4 @@
-# Copyright (C) 2011 by StyleShare, Inc
+# Copyright (C) 2012 by StyleShare, Inc
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -49,8 +49,8 @@ except ImportError:
 __author__ = 'Hong Minhee' # http://dahlia.kr/
 __email__ = 'dahlia' "@" 'stylesha.re'
 __license__ = 'MIT License'
-__version__ = '0.1.1'
-__copyright__ = '2011, StyleShare, Inc'
+__version__ = '0.1.2'
+__copyright__ = '2012, StyleShare, Inc'
 
 
 class Service(object):
