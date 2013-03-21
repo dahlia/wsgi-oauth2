@@ -83,6 +83,18 @@ class Service(object):
         self.authorize_endpoint = check_endpoint(authorize_endpoint)
         self.access_token_endpoint = check_endpoint(access_token_endpoint)
 
+    def load_username(self, access_token):
+        """Load a username from the service suitable for the REMOTE_USER
+        variable. A valid :class:`AccessToken` is provided to allow access to
+        authenticated resources provided by the service. If the service supports
+        usernames this method must set the 'username' parameter to access_token.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
+        raise NotImplementedError(
+            "This Service does not provide a username for REMOTE_USER")
+
     def make_client(self, client_id, client_secret, **extra):
         """Makes a :class:`Client` for the service.
 
@@ -97,6 +109,34 @@ class Service(object):
 
         """
         return Client(self, client_id, client_secret, **extra)
+
+
+class GithubService(Service):
+    """OAuth 2.0 service provider for GitHub with support for getting the
+    authorized username.
+
+    """
+
+    def __init__(self):
+        super(GithubService, self).__init__(
+            authorize_endpoint='https://github.com/login/oauth/authorize',
+            access_token_endpoint='https://github.com/login/oauth/access_token')
+
+    def load_username(self, access_token):
+        """Load a username from the service suitable for the REMOTE_USER
+        variable. A valid :class:`AccessToken` is provided to allow access to
+        authenticated resources provided by the service. For Github the 'login'
+        variable is used.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
+        response = access_token.get('https://api.github.com/user');
+        response = response.read()
+        response = json.loads(response)
+        # Copy useful data
+        access_token["username"] = response["login"]
+        access_token["name"] = response["name"]
 
 
 class Client(object):
@@ -162,6 +202,17 @@ class Client(object):
             query['state'] = state
         return '{0}?{1}'.format(self.service.authorize_endpoint,
                                 urllib.urlencode(query))
+
+    def load_username(self, access_token):
+        """Load a username from the configured service suitable for the
+        REMOTE_USER variable. A valid :class:`AccessToken` is provided to allow
+        access to authenticated resources provided by the service. For Github
+        the 'login' variable is used.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
+        self.service.load_username(access_token)
 
     def request_access_token(self, redirect_uri, code):
         """Requests an access token.
@@ -263,6 +314,10 @@ class WSGIMiddleware(object):
     :param cookie: cookie name to be used for maintaining the user session.
                    default is :const:`DEFAULT_COOKIE`
     :type cookie: :class:`basestring`
+    :param set_remote_user: Set to True to set the REMOTE_USER environment
+                            variable to the authenticated username (if supported
+                            by the :class:`Service`)
+    :type set_remote_user: bool
 
     """
 
@@ -287,7 +342,7 @@ class WSGIMiddleware(object):
     cookie = None
 
     def __init__(self, client, application, secret,
-                 path=None, cookie=DEFAULT_COOKIE):
+                 path=None, cookie=DEFAULT_COOKIE, set_remote_user=False):
         if not isinstance(client, Client):
             raise TypeError('client must be a wsgioauth2.Client instance, '
                             'not ' + repr(client))
@@ -310,6 +365,7 @@ class WSGIMiddleware(object):
             path = '__{0}__'.format(path)
         self.path = '/{0}/'.format(path.strip('/'))
         self.cookie = cookie
+        self.set_remote_user = set_remote_user
 
     def redirect(self, url, start_response, headers={}):
         h = {'Content-Type': 'text/html; charset=utf-8', 'Location': url}
@@ -348,6 +404,10 @@ class WSGIMiddleware(object):
                 code = code[0]
                 access_token = self.client.request_access_token(redirect_uri,
                                                                 code)
+                # Load the username now so it's in the session cookie
+                if self.set_remote_user:
+                    self.client.load_username(access_token)
+
                 session = pickle.dumps(access_token)
                 sig = hmac.new(self.secret, session, hashlib.sha1).hexdigest()
                 signed_session = '{0},{1}'.format(sig, session)
@@ -385,6 +445,8 @@ class WSGIMiddleware(object):
             )
         environ = dict(environ)
         environ['wsgioauth2.session'] = session
+        if self.set_remote_user and session['username']:
+            environ['REMOTE_USER'] = session['username']
         return self.application(environ, start_response)
 
 
@@ -404,10 +466,7 @@ google = Service(
     access_token_endpoint='https://accounts.google.com/o/oauth2/token'
 )
 
-#: (:class:`Service`) The predefined service for GitHub_.
+#: (:class:`GithubService`) The predefined service for GitHub_.
 #:
 #: .. _GitHub: https://github.com/
-github = Service(
-    authorize_endpoint='https://github.com/login/oauth/authorize',
-    access_token_endpoint='https://github.com/login/oauth/access_token'
-)
+github = GithubService()
