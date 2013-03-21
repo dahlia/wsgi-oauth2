@@ -84,6 +84,14 @@ class Service(object):
         self.access_token_endpoint = check_endpoint(access_token_endpoint)
 
     def load_username(self, access_token):
+        """Load a username from the service suitable for the REMOTE_USER
+        variable. A valid :class:`AccessToken` is provided to allow access to
+        authenticated resources provided by the service. If the service supports
+        usernames this method must set the 'username' parameter to access_token.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
         raise NotImplementedError(
             "This Service does not provide a username for REMOTE_USER")
 
@@ -104,12 +112,25 @@ class Service(object):
 
 
 class GithubService(Service):
+    """OAuth 2.0 service provider for GitHub with support for getting the
+    authorized username.
+
+    """
+
     def __init__(self):
         super(GithubService, self).__init__(
             authorize_endpoint='https://github.com/login/oauth/authorize',
             access_token_endpoint='https://github.com/login/oauth/access_token')
 
     def load_username(self, access_token):
+        """Load a username from the service suitable for the REMOTE_USER
+        variable. A valid :class:`AccessToken` is provided to allow access to
+        authenticated resources provided by the service. For Github the 'login'
+        variable is used.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
         response = access_token.get('https://api.github.com/user');
         response = response.read()
         response = json.loads(response)
@@ -183,6 +204,14 @@ class Client(object):
                                 urllib.urlencode(query))
 
     def load_username(self, access_token):
+        """Load a username from the configured service suitable for the
+        REMOTE_USER variable. A valid :class:`AccessToken` is provided to allow
+        access to authenticated resources provided by the service. For Github
+        the 'login' variable is used.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
         self.service.load_username(access_token)
 
     def request_access_token(self, redirect_uri, code):
@@ -285,6 +314,10 @@ class WSGIMiddleware(object):
     :param cookie: cookie name to be used for maintaining the user session.
                    default is :const:`DEFAULT_COOKIE`
     :type cookie: :class:`basestring`
+    :param set_remote_user: Set to True to set the REMOTE_USER environment
+                            variable to the authenticated username (if supported
+                            by the :class:`Service`)
+    :type set_remote_user: bool
 
     """
 
