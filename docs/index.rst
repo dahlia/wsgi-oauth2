@@ -6,7 +6,7 @@
 wsgi-oauth2
 ===========
 
-.. image:: http://oauth.net/images/oauth-2-sm.png
+.. image:: _static/oauth2.png
 
 This module provides a simple WSGI middleware that requires the user to
 authenticate via the specific `OAuth 2.0`_ service e.g. Facebook_, Google_.
@@ -128,8 +128,8 @@ Version 0.1.2
 
 To be released.
 
-- Add predefined GitHub service (``wsgioauth2.github``).
-- Add option to set ``REMOTE_USER``.  [`#3`__ by Mike Milner]
+- Add predefined GitHub service (:data:`wsgioauth2.github`).
+- Add option to set :envvar:`REMOTE_USER`.  [`#3`__ by Mike Milner]
 
 __ https://github.com/StyleShare/wsgi-oauth2/pull/3
 

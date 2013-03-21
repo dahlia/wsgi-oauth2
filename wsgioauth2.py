@@ -450,23 +450,23 @@ class WSGIMiddleware(object):
         return self.application(environ, start_response)
 
 
-#: (:class:`Service`) The predefined service for Facebook_.
+#: (:class:`Service`) The predefined service for Facebook__.
 #:
-#: .. _Facebook: https://www.facebook.com/
+#: __ https://www.facebook.com/
 facebook = Service(
     authorize_endpoint='https://www.facebook.com/dialog/oauth',
     access_token_endpoint='https://graph.facebook.com/oauth/access_token'
 )
 
-#: (:class:`Service`) The predefined service for Google_.
+#: (:class:`Service`) The predefined service for Google__.
 #:
-#: .. _Google: http://www.google.com/
+#: __ http://www.google.com/
 google = Service(
     authorize_endpoint='https://accounts.google.com/o/oauth2/auth',
     access_token_endpoint='https://accounts.google.com/o/oauth2/token'
 )
 
-#: (:class:`GithubService`) The predefined service for GitHub_.
+#: (:class:`GithubService`) The predefined service for GitHub__.
 #:
-#: .. _GitHub: https://github.com/
+#: __ https://github.com/
 github = GithubService()
