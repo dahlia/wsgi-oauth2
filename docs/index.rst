@@ -129,6 +129,9 @@ Version 0.1.2
 To be released.
 
 - Add predefined GitHub service (``wsgioauth2.github``).
+- Add option to set ``REMOTE_USER``.  [`#3`__ by Mike Milner]
+
+__ https://github.com/StyleShare/wsgi-oauth2/pull/3
 
 
 Version 0.1.1
