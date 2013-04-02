@@ -454,36 +454,41 @@ class WSGIMiddleware(object):
             return self.forbidden(start_response)
 
         elif environ.get('PATH_INFO').startswith(self.path):
+            code = query_dict.get('code')
+            if not code:
+                # No code in URL - forbidden
+                return self.redirect(forbidden_uri, start_response)
+
             try:
-                code = query_dict['code']
-            except KeyError:
-                return self.application(environ, start_response)
-            else:
                 code = code[0]
                 access_token = self.client.request_access_token(redirect_uri,
                                                                 code)
-                # Load the username now so it's in the session cookie
-                if self.set_remote_user:
-                    self.client.load_username(access_token)
+            except TypeError:
+                # No access token provided - forbidden
+                return self.redirect(forbidden_uri, start_response)
 
-                # Check if the authenticated user is allowed
-                if not self.client.is_user_allowed(access_token):
-                    return self.redirect(forbidden_uri, start_response)
+            # Load the username now so it's in the session cookie
+            if self.set_remote_user:
+                self.client.load_username(access_token)
 
-                session = pickle.dumps(access_token)
-                sig = hmac.new(self.secret, session, hashlib.sha1).hexdigest()
-                signed_session = '{0},{1}'.format(sig, session)
-                signed_session = base64.urlsafe_b64encode(signed_session)
-                set_cookie = Cookie.SimpleCookie()
-                set_cookie[self.cookie] = signed_session
-                set_cookie[self.cookie]['path'] = '/'
-                if 'expires_in' in access_token:
-                    expires_in = int(access_token['expires_in'])
-                    set_cookie[self.cookie]['expires'] = expires_in
-                set_cookie = set_cookie[self.cookie].OutputString()
-                return self.redirect(query_dict.get('state', [''])[0],
-                                     start_response,
-                                     headers={'Set-Cookie': set_cookie})
+            # Check if the authenticated user is allowed
+            if not self.client.is_user_allowed(access_token):
+                return self.redirect(forbidden_uri, start_response)
+
+            session = pickle.dumps(access_token)
+            sig = hmac.new(self.secret, session, hashlib.sha1).hexdigest()
+            signed_session = '{0},{1}'.format(sig, session)
+            signed_session = base64.urlsafe_b64encode(signed_session)
+            set_cookie = Cookie.SimpleCookie()
+            set_cookie[self.cookie] = signed_session
+            set_cookie[self.cookie]['path'] = '/'
+            if 'expires_in' in access_token:
+                expires_in = int(access_token['expires_in'])
+                set_cookie[self.cookie]['expires'] = expires_in
+            set_cookie = set_cookie[self.cookie].OutputString()
+            return self.redirect(query_dict.get('state', [''])[0],
+                                 start_response,
+                                 headers={'Set-Cookie': set_cookie})
         elif self.cookie in cookie_dict:
             session = cookie_dict[self.cookie].value
             session = base64.urlsafe_b64decode(session)
