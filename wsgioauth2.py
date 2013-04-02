@@ -95,6 +95,9 @@ class Service(object):
         raise NotImplementedError(
             "This Service does not provide a username for REMOTE_USER")
 
+    def is_user_allowed(self, access_token):
+        return True
+
     def make_client(self, client_id, client_secret, **extra):
         """Makes a :class:`Client` for the service.
 
@@ -117,10 +120,14 @@ class GithubService(Service):
 
     """
 
-    def __init__(self):
+    def __init__(self, allowed_orgs=None):
         super(GithubService, self).__init__(
             authorize_endpoint='https://github.com/login/oauth/authorize',
             access_token_endpoint='https://github.com/login/oauth/access_token')
+        # coerce a single string into a list
+        if isinstance(allowed_orgs, basestring):
+            allowed_orgs = [allowed_orgs]
+        self.allowed_orgs = allowed_orgs
 
     def load_username(self, access_token):
         """Load a username from the service suitable for the REMOTE_USER
@@ -137,6 +144,22 @@ class GithubService(Service):
         # Copy useful data
         access_token["username"] = response["login"]
         access_token["name"] = response["name"]
+
+    def is_user_allowed(self, access_token):
+        # if there is no list of allowed organizations, any authenticated user
+        # is allowed.
+        if not self.allowed_orgs:
+            return True
+
+        # Get a list of organizations for the authenticated user
+        response = access_token.get("https://api.github.com/user/orgs")
+        response = response.read()
+        response = json.loads(response)
+        user_orgs = set(org["login"] for org in response)
+
+        allowed_orgs = set(self.allowed_orgs)
+        # If any orgs overlap, allow the user.
+        return bool(allowed_orgs.intersection(user_orgs))
 
 
 class Client(object):
@@ -213,6 +236,9 @@ class Client(object):
 
         """
         self.service.load_username(access_token)
+
+    def is_user_allowed(self, access_token):
+        return self.service.is_user_allowed(access_token)
 
     def request_access_token(self, redirect_uri, code):
         """Requests an access token.
@@ -384,18 +410,34 @@ class WSGIMiddleware(object):
         yield e_url
         yield '</a>&hellip;</p></body></html>'
 
+    def forbidden(self, start_response):
+        h = {'Content-Type': 'text/html; charset=utf-8'}
+        start_response('403 Forbidden', h.items())
+        yield '<!DOCTYPE html>'
+        yield '<html><head><meta charset="utf-8">'
+        yield '<title>Forbidden</title></head>'
+        yield '<body><p>403 Forbidden - '
+        yield 'Your account does not have access to the requested resource.'
+        yield '</p></body></html>'
+
     def __call__(self, environ, start_response):
         url = '{0}://{1}{2}'.format(environ.get('wsgi.url_scheme', 'http'),
                                     environ.get('HTTP_HOST', ''),
                                     environ.get('PATH_INFO', '/'))
         redirect_uri = urlparse.urljoin(url, self.path)
+        forbidden_path = "/wsgi_auth2_forbidden";
+        forbidden_uri = urlparse.urljoin(url, forbidden_path)
         query_string = environ.get('QUERY_STRING', '')
         if query_string:
             url += '?' + query_string
         cookie_dict = Cookie.SimpleCookie()
         cookie_dict.load(environ.get('HTTP_COOKIE', ''))
         query_dict = urlparse.parse_qs(query_string)
-        if environ.get('PATH_INFO').startswith(self.path):
+
+        if environ.get('PATH_INFO').startswith(forbidden_path):
+            return self.forbidden(start_response)
+
+        elif environ.get('PATH_INFO').startswith(self.path):
             try:
                 code = query_dict['code']
             except KeyError:
@@ -407,6 +449,10 @@ class WSGIMiddleware(object):
                 # Load the username now so it's in the session cookie
                 if self.set_remote_user:
                     self.client.load_username(access_token)
+
+                # Check if the authenticated user is allowed
+                if not self.client.is_user_allowed(access_token):
+                    return self.redirect(forbidden_uri, start_response)
 
                 session = pickle.dumps(access_token)
                 sig = hmac.new(self.secret, session, hashlib.sha1).hexdigest()
