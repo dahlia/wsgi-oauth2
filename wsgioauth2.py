@@ -368,18 +368,23 @@ class WSGIMiddleware(object):
     cookie = None
 
     def __init__(self, client, application, secret,
-                 path=None, cookie=DEFAULT_COOKIE, set_remote_user=False):
+                 path=None, cookie=DEFAULT_COOKIE, set_remote_user=False,
+                 forbidden_path=None, forbidden_passthrough=False):
         if not isinstance(client, Client):
             raise TypeError('client must be a wsgioauth2.Client instance, '
                             'not ' + repr(client))
-        elif not callable(application):
+        if not callable(application):
             raise TypeError('application must be an WSGI compliant callable, '
                             'not ' + repr(application))
-        elif not isinstance(secret, basestring):
+        if not isinstance(secret, basestring):
             raise TypeError('secret must be a string, not ' + repr(secret))
-        elif not (path is None or isinstance(path, basestring)):
+        if not (path is None or isinstance(path, basestring)):
             raise TypeError('path must be a string, not ' + repr(path))
-        elif not isinstance(cookie, basestring):
+        if not (forbidden_path is None or
+                isinstance(forbidden_path, basestring)):
+            raise TypeError('forbidden_path must be a string, not ' +
+                            repr(path))
+        if not isinstance(cookie, basestring):
             raise TypeError('cookie must be a string, not ' + repr(cookie))
         self.client = client
         self.application = application
@@ -390,6 +395,15 @@ class WSGIMiddleware(object):
             path = ''.join(random.choice(seq) for x in xrange(40))
             path = '__{0}__'.format(path)
         self.path = '/{0}/'.format(path.strip('/'))
+
+        if forbidden_path is None:
+            forbidden_path = "/forbidden"
+        # forbidden_path must start with a / to avoid relative links
+        if not forbidden_path.startswith('/'):
+            forbidden_path = '/' + forbidden_path
+        self.forbidden_path = forbidden_path
+        self.forbidden_passthrough = forbidden_passthrough
+
         self.cookie = cookie
         self.set_remote_user = set_remote_user
 
@@ -425,8 +439,7 @@ class WSGIMiddleware(object):
                                     environ.get('HTTP_HOST', ''),
                                     environ.get('PATH_INFO', '/'))
         redirect_uri = urlparse.urljoin(url, self.path)
-        forbidden_path = "/wsgi_auth2_forbidden";
-        forbidden_uri = urlparse.urljoin(url, forbidden_path)
+        forbidden_uri = urlparse.urljoin(url, self.forbidden_path)
         query_string = environ.get('QUERY_STRING', '')
         if query_string:
             url += '?' + query_string
@@ -434,7 +447,10 @@ class WSGIMiddleware(object):
         cookie_dict.load(environ.get('HTTP_COOKIE', ''))
         query_dict = urlparse.parse_qs(query_string)
 
-        if environ.get('PATH_INFO').startswith(forbidden_path):
+        if environ.get('PATH_INFO').startswith(self.forbidden_path):
+            if self.forbidden_passthrough:
+                # Pass the forbidden request through to the app
+                return self.application(environ, start_response);
             return self.forbidden(start_response)
 
         elif environ.get('PATH_INFO').startswith(self.path):
