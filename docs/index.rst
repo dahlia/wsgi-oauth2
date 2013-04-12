@@ -131,6 +131,15 @@ Version 0.1.3
 
 To be released.
 
+- :attr:`~wsgioauth2.WSGIMiddleware.forbidden_path` can now be configured.
+  Default forbidden page is ugly so also allow forbidden path to be passed
+  through to the protected application so it can be styled properly.
+  [:pull:`4` by Mike Milner]
+- :class:`~wsgioauth2.GitHubService` now takes an optional parameter
+  ``allowed_orgs`` to limit access based on GitHub organizations.
+  [:pull:`4` by Mike Milner]
+
+
 
 Version 0.1.2
 '''''''''''''
