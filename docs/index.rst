@@ -135,9 +135,7 @@ Version 0.1.2
 Released on March 22, 2013.
 
 - Add predefined GitHub service (:data:`wsgioauth2.github`).
-- Add option to set :envvar:`REMOTE_USER`.  [`#3`__ by Mike Milner]
-
-__ https://github.com/StyleShare/wsgi-oauth2/pull/3
+- Add option to set :envvar:`REMOTE_USER`.  [:pull:`3` by Mike Milner]
 
 
 Version 0.1.1
@@ -146,9 +144,7 @@ Version 0.1.1
 Released on May 2, 2012.
 
 - Set cookie with ``expires`` option if the response contains ``expires_in``
-  parameter.  [`#2`__ by mete0r]
-
-__ https://github.com/StyleShare/wsgi-oauth2/pull/2
+  parameter.  [:pull:`2` by mete0r]
 
 
 Version 0.1.0
