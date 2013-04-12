@@ -122,18 +122,18 @@ class Service(object):
         return Client(self, client_id, client_secret, **extra)
 
 
-class GithubService(Service):
+class GitHubService(Service):
     """OAuth 2.0 service provider for GitHub with support for getting the
     authorized username.
 
-    :param allowed_orgs: What Github Organizations are allowed to access the
+    :param allowed_orgs: What GitHub Organizations are allowed to access the
                          protected application.
     :type allowed_orgs: :class:`basestring` or a :class:`list` of
                         :class:`basestring`s.
     """
 
     def __init__(self, allowed_orgs=None):
-        super(GithubService, self).__init__(
+        super(GitHubService, self).__init__(
             authorize_endpoint='https://github.com/login/oauth/authorize',
             access_token_endpoint='https://github.com/login/oauth/access_token')
         # coerce a single string into a list
@@ -144,7 +144,7 @@ class GithubService(Service):
     def load_username(self, access_token):
         """Load a username from the service suitable for the REMOTE_USER
         variable. A valid :class:`AccessToken` is provided to allow access to
-        authenticated resources provided by the service. For Github the 'login'
+        authenticated resources provided by the service. For GitHub the 'login'
         variable is used.
 
         :param access_token: a valid :class:`AccessToken`
@@ -159,7 +159,7 @@ class GithubService(Service):
 
     def is_user_allowed(self, access_token):
         """Check if the authenticated user is allowed to access the protected
-        application. If this :class:`GithubService` was created with a list of
+        application. If this :class:`GitHubService` was created with a list of
         allowed_orgs, the user must be a memeber of one or more of the
         allowed_orgs to get access. If no allowed_orgs were specified, all
         authenticated users will be allowed.
@@ -181,6 +181,9 @@ class GithubService(Service):
         allowed_orgs = set(self.allowed_orgs)
         # If any orgs overlap, allow the user.
         return bool(allowed_orgs.intersection(user_orgs))
+
+
+GithubService = GitHubService
 
 
 class Client(object):
@@ -250,7 +253,7 @@ class Client(object):
     def load_username(self, access_token):
         """Load a username from the configured service suitable for the
         REMOTE_USER variable. A valid :class:`AccessToken` is provided to allow
-        access to authenticated resources provided by the service. For Github
+        access to authenticated resources provided by the service. For GitHub
         the 'login' variable is used.
 
         :param access_token: a valid :class:`AccessToken`
@@ -567,7 +570,7 @@ google = Service(
     access_token_endpoint='https://accounts.google.com/o/oauth2/token'
 )
 
-#: (:class:`GithubService`) The predefined service for GitHub__.
+#: (:class:`GitHubService`) The predefined service for GitHub__.
 #:
 #: __ https://github.com/
-github = GithubService()
+github = GitHubService()
