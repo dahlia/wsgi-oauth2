@@ -96,6 +96,14 @@ class Service(object):
             "This Service does not provide a username for REMOTE_USER")
 
     def is_user_allowed(self, access_token):
+        """Check if the authenticated user is allowed to access the protected
+        application. By default, any authenticated user is allowed access.
+        Override this check to allow the :class:`Service` to further-restrict
+        access based on additional information known by the service.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
         return True
 
     def make_client(self, client_id, client_secret, **extra):
@@ -118,6 +126,10 @@ class GithubService(Service):
     """OAuth 2.0 service provider for GitHub with support for getting the
     authorized username.
 
+    :param allowed_orgs: What Github Organizations are allowed to access the
+                         protected application.
+    :type allowed_orgs: :class:`basestring` or a :class:`list` of
+                        :class:`basestring`s.
     """
 
     def __init__(self, allowed_orgs=None):
@@ -146,6 +158,15 @@ class GithubService(Service):
         access_token["name"] = response["name"]
 
     def is_user_allowed(self, access_token):
+        """Check if the authenticated user is allowed to access the protected
+        application. If this :class:`GithubService` was created with a list of
+        allowed_orgs, the user must be a memeber of one or more of the
+        allowed_orgs to get access. If no allowed_orgs were specified, all
+        authenticated users will be allowed.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
         # if there is no list of allowed organizations, any authenticated user
         # is allowed.
         if not self.allowed_orgs:
@@ -425,6 +446,7 @@ class WSGIMiddleware(object):
         yield '</a>&hellip;</p></body></html>'
 
     def forbidden(self, start_response):
+        """Respond with an HTTP 403 Forbidden status."""
         h = {'Content-Type': 'text/html; charset=utf-8'}
         start_response('403 Forbidden', h.items())
         yield '<!DOCTYPE html>'
