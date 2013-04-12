@@ -95,6 +95,17 @@ class Service(object):
         raise NotImplementedError(
             "This Service does not provide a username for REMOTE_USER")
 
+    def is_user_allowed(self, access_token):
+        """Check if the authenticated user is allowed to access the protected
+        application. By default, any authenticated user is allowed access.
+        Override this check to allow the :class:`Service` to further-restrict
+        access based on additional information known by the service.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
+        return True
+
     def make_client(self, client_id, client_secret, **extra):
         """Makes a :class:`Client` for the service.
 
@@ -115,12 +126,20 @@ class GithubService(Service):
     """OAuth 2.0 service provider for GitHub with support for getting the
     authorized username.
 
+    :param allowed_orgs: What Github Organizations are allowed to access the
+                         protected application.
+    :type allowed_orgs: :class:`basestring` or a :class:`list` of
+                        :class:`basestring`s.
     """
 
-    def __init__(self):
+    def __init__(self, allowed_orgs=None):
         super(GithubService, self).__init__(
             authorize_endpoint='https://github.com/login/oauth/authorize',
             access_token_endpoint='https://github.com/login/oauth/access_token')
+        # coerce a single string into a list
+        if isinstance(allowed_orgs, basestring):
+            allowed_orgs = [allowed_orgs]
+        self.allowed_orgs = allowed_orgs
 
     def load_username(self, access_token):
         """Load a username from the service suitable for the REMOTE_USER
@@ -137,6 +156,31 @@ class GithubService(Service):
         # Copy useful data
         access_token["username"] = response["login"]
         access_token["name"] = response["name"]
+
+    def is_user_allowed(self, access_token):
+        """Check if the authenticated user is allowed to access the protected
+        application. If this :class:`GithubService` was created with a list of
+        allowed_orgs, the user must be a memeber of one or more of the
+        allowed_orgs to get access. If no allowed_orgs were specified, all
+        authenticated users will be allowed.
+
+        :param access_token: a valid :class:`AccessToken`
+
+        """
+        # if there is no list of allowed organizations, any authenticated user
+        # is allowed.
+        if not self.allowed_orgs:
+            return True
+
+        # Get a list of organizations for the authenticated user
+        response = access_token.get("https://api.github.com/user/orgs")
+        response = response.read()
+        response = json.loads(response)
+        user_orgs = set(org["login"] for org in response)
+
+        allowed_orgs = set(self.allowed_orgs)
+        # If any orgs overlap, allow the user.
+        return bool(allowed_orgs.intersection(user_orgs))
 
 
 class Client(object):
@@ -213,6 +257,9 @@ class Client(object):
 
         """
         self.service.load_username(access_token)
+
+    def is_user_allowed(self, access_token):
+        return self.service.is_user_allowed(access_token)
 
     def request_access_token(self, redirect_uri, code):
         """Requests an access token.
@@ -318,6 +365,18 @@ class WSGIMiddleware(object):
                             variable to the authenticated username (if supported
                             by the :class:`Service`)
     :type set_remote_user: bool
+    :param forbidden_path: What path should be used to display the 403 Forbidden
+                           page. Any forbidden user will be redirected to this
+                           path and a default 403 Forbidden page will be shown.
+                           To override the default Forbidden page see the
+                           forbidden_passthrough option.
+    :type forbidden_path: :class:`basestring`
+    :param forbidden_passthrough: Should the forbidden page be passed-through to
+                                  the protected application. By default, a
+                                  generic Forbidden page will be generated. Set
+                                  this to True to pass the request through to
+                                  the protected application.
+    :type forbidden_passthrough: bool
 
     """
 
@@ -342,18 +401,23 @@ class WSGIMiddleware(object):
     cookie = None
 
     def __init__(self, client, application, secret,
-                 path=None, cookie=DEFAULT_COOKIE, set_remote_user=False):
+                 path=None, cookie=DEFAULT_COOKIE, set_remote_user=False,
+                 forbidden_path=None, forbidden_passthrough=False):
         if not isinstance(client, Client):
             raise TypeError('client must be a wsgioauth2.Client instance, '
                             'not ' + repr(client))
-        elif not callable(application):
+        if not callable(application):
             raise TypeError('application must be an WSGI compliant callable, '
                             'not ' + repr(application))
-        elif not isinstance(secret, basestring):
+        if not isinstance(secret, basestring):
             raise TypeError('secret must be a string, not ' + repr(secret))
-        elif not (path is None or isinstance(path, basestring)):
+        if not (path is None or isinstance(path, basestring)):
             raise TypeError('path must be a string, not ' + repr(path))
-        elif not isinstance(cookie, basestring):
+        if not (forbidden_path is None or
+                isinstance(forbidden_path, basestring)):
+            raise TypeError('forbidden_path must be a string, not ' +
+                            repr(path))
+        if not isinstance(cookie, basestring):
             raise TypeError('cookie must be a string, not ' + repr(cookie))
         self.client = client
         self.application = application
@@ -364,6 +428,15 @@ class WSGIMiddleware(object):
             path = ''.join(random.choice(seq) for x in xrange(40))
             path = '__{0}__'.format(path)
         self.path = '/{0}/'.format(path.strip('/'))
+
+        if forbidden_path is None:
+            forbidden_path = "/forbidden"
+        # forbidden_path must start with a / to avoid relative links
+        if not forbidden_path.startswith('/'):
+            forbidden_path = '/' + forbidden_path
+        self.forbidden_path = forbidden_path
+        self.forbidden_passthrough = forbidden_passthrough
+
         self.cookie = cookie
         self.set_remote_user = set_remote_user
 
@@ -384,44 +457,72 @@ class WSGIMiddleware(object):
         yield e_url
         yield '</a>&hellip;</p></body></html>'
 
+    def forbidden(self, start_response):
+        """Respond with an HTTP 403 Forbidden status."""
+        h = {'Content-Type': 'text/html; charset=utf-8'}
+        start_response('403 Forbidden', h.items())
+        yield '<!DOCTYPE html>'
+        yield '<html><head><meta charset="utf-8">'
+        yield '<title>Forbidden</title></head>'
+        yield '<body><p>403 Forbidden - '
+        yield 'Your account does not have access to the requested resource.'
+        yield '</p></body></html>'
+
     def __call__(self, environ, start_response):
         url = '{0}://{1}{2}'.format(environ.get('wsgi.url_scheme', 'http'),
                                     environ.get('HTTP_HOST', ''),
                                     environ.get('PATH_INFO', '/'))
         redirect_uri = urlparse.urljoin(url, self.path)
+        forbidden_uri = urlparse.urljoin(url, self.forbidden_path)
         query_string = environ.get('QUERY_STRING', '')
         if query_string:
             url += '?' + query_string
         cookie_dict = Cookie.SimpleCookie()
         cookie_dict.load(environ.get('HTTP_COOKIE', ''))
         query_dict = urlparse.parse_qs(query_string)
-        if environ.get('PATH_INFO').startswith(self.path):
+
+        if environ.get('PATH_INFO').startswith(self.forbidden_path):
+            if self.forbidden_passthrough:
+                # Pass the forbidden request through to the app
+                return self.application(environ, start_response);
+            return self.forbidden(start_response)
+
+        elif environ.get('PATH_INFO').startswith(self.path):
+            code = query_dict.get('code')
+            if not code:
+                # No code in URL - forbidden
+                return self.redirect(forbidden_uri, start_response)
+
             try:
-                code = query_dict['code']
-            except KeyError:
-                return self.application(environ, start_response)
-            else:
                 code = code[0]
                 access_token = self.client.request_access_token(redirect_uri,
                                                                 code)
-                # Load the username now so it's in the session cookie
-                if self.set_remote_user:
-                    self.client.load_username(access_token)
+            except TypeError:
+                # No access token provided - forbidden
+                return self.redirect(forbidden_uri, start_response)
 
-                session = pickle.dumps(access_token)
-                sig = hmac.new(self.secret, session, hashlib.sha1).hexdigest()
-                signed_session = '{0},{1}'.format(sig, session)
-                signed_session = base64.urlsafe_b64encode(signed_session)
-                set_cookie = Cookie.SimpleCookie()
-                set_cookie[self.cookie] = signed_session
-                set_cookie[self.cookie]['path'] = '/'
-                if 'expires_in' in access_token:
-                    expires_in = int(access_token['expires_in'])
-                    set_cookie[self.cookie]['expires'] = expires_in
-                set_cookie = set_cookie[self.cookie].OutputString()
-                return self.redirect(query_dict.get('state', [''])[0],
-                                     start_response,
-                                     headers={'Set-Cookie': set_cookie})
+            # Load the username now so it's in the session cookie
+            if self.set_remote_user:
+                self.client.load_username(access_token)
+
+            # Check if the authenticated user is allowed
+            if not self.client.is_user_allowed(access_token):
+                return self.redirect(forbidden_uri, start_response)
+
+            session = pickle.dumps(access_token)
+            sig = hmac.new(self.secret, session, hashlib.sha1).hexdigest()
+            signed_session = '{0},{1}'.format(sig, session)
+            signed_session = base64.urlsafe_b64encode(signed_session)
+            set_cookie = Cookie.SimpleCookie()
+            set_cookie[self.cookie] = signed_session
+            set_cookie[self.cookie]['path'] = '/'
+            if 'expires_in' in access_token:
+                expires_in = int(access_token['expires_in'])
+                set_cookie[self.cookie]['expires'] = expires_in
+            set_cookie = set_cookie[self.cookie].OutputString()
+            return self.redirect(query_dict.get('state', [''])[0],
+                                 start_response,
+                                 headers={'Set-Cookie': set_cookie})
         elif self.cookie in cookie_dict:
             session = cookie_dict[self.cookie].value
             session = base64.urlsafe_b64decode(session)
