@@ -365,6 +365,18 @@ class WSGIMiddleware(object):
                             variable to the authenticated username (if supported
                             by the :class:`Service`)
     :type set_remote_user: bool
+    :param forbidden_path: What path should be used to display the 403 Forbidden
+                           page. Any forbidden user will be redirected to this
+                           path and a default 403 Forbidden page will be shown.
+                           To override the default Forbidden page see the
+                           forbidden_passthrough option.
+    :type forbidden_path: :class:`basestring`
+    :param forbidden_passthrough: Should the forbidden page be passed-through to
+                                  the protected application. By default, a
+                                  generic Forbidden page will be generated. Set
+                                  this to True to pass the request through to
+                                  the protected application.
+    :type forbidden_passthrough: bool
 
     """
 
