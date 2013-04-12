@@ -123,6 +123,12 @@ The package is written by `Hong Minhee`_ for StyleShare_.
 Changelog
 ---------
 
+Version 0.1.3
+'''''''''''''
+
+To be released.
+
+
 Version 0.1.2
 '''''''''''''
 
