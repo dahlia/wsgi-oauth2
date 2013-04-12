@@ -85,6 +85,9 @@ Basic usage
 .. autoclass:: wsgioauth2.WSGIMiddleware
    :members:
 
+.. autoclass:: wsgioauth2.GitHubService
+   :members:
+
 
 .. _sourcecode:
 
