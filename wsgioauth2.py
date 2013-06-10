@@ -283,7 +283,7 @@ class Client(object):
                 'grant_type': 'authorization_code'}
         u = urllib2.urlopen(self.service.access_token_endpoint,
                             data=urllib.urlencode(form))
-        content_type = u.info().get('Content-Type')
+        content_type = u.info().gettype()
         if content_type == 'application/json':
             data = json.load(u)
         else:
