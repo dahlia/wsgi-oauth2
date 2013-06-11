@@ -85,6 +85,9 @@ Basic usage
 .. autoclass:: wsgioauth2.WSGIMiddleware
    :members:
 
+.. autoclass:: wsgioauth2.GitHubService
+   :members:
+
 
 .. _sourcecode:
 
@@ -123,15 +126,30 @@ The package is written by `Hong Minhee`_ for StyleShare_.
 Changelog
 ---------
 
+Version 0.1.3
+'''''''''''''
+
+To be released.
+
+- :attr:`~wsgioauth2.WSGIMiddleware.forbidden_path` can now be configured.
+  Default forbidden page is ugly so also allow forbidden path to be passed
+  through to the protected application so it can be styled properly.
+  [:pull:`4` by Mike Milner]
+- :class:`~wsgioauth2.GitHubService` now takes an optional parameter
+  ``allowed_orgs`` to limit access based on GitHub organizations.
+  [:pull:`4` by Mike Milner]
+- Fix :meth:`Client.request_access_token()` to understand
+  :mimetype:`Content-Type` with ``charset``.
+  [:pull:`5` by Jacob Kaplan-Moss]
+
+
 Version 0.1.2
 '''''''''''''
 
 Released on March 22, 2013.
 
 - Add predefined GitHub service (:data:`wsgioauth2.github`).
-- Add option to set :envvar:`REMOTE_USER`.  [`#3`__ by Mike Milner]
-
-__ https://github.com/StyleShare/wsgi-oauth2/pull/3
+- Add option to set :envvar:`REMOTE_USER`.  [:pull:`3` by Mike Milner]
 
 
 Version 0.1.1
@@ -140,9 +158,7 @@ Version 0.1.1
 Released on May 2, 2012.
 
 - Set cookie with ``expires`` option if the response contains ``expires_in``
-  parameter.  [`#2`__ by mete0r]
-
-__ https://github.com/StyleShare/wsgi-oauth2/pull/2
+  parameter.  [:pull:`2` by mete0r]
 
 
 Version 0.1.0
