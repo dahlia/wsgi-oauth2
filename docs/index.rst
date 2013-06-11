@@ -138,7 +138,9 @@ To be released.
 - :class:`~wsgioauth2.GitHubService` now takes an optional parameter
   ``allowed_orgs`` to limit access based on GitHub organizations.
   [:pull:`4` by Mike Milner]
-
+- Fix :meth:`Client.request_access_token()` to understand
+  :mimetype:`Content-Type` with ``charset``.
+  [:pull:`5` by Jacob Kaplan-Moss]
 
 
 Version 0.1.2
