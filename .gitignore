@@ -4,3 +4,4 @@ MANIFEST
 build
 dist
 docs/_build
+wsgi_oauth2.egg-info
