@@ -54,7 +54,7 @@ setup(name='wsgi-oauth2',
       version=wsgioauth2.__version__,
       author=wsgioauth2.__author__,
       author_email=wsgioauth2.__email__,
-      url='http://styleshare.github.com/wsgi-oauth2/',
+      url='http://styleshare.github.io/wsgi-oauth2/',
       py_modules=['wsgioauth2'],
       classifiers=[
           'Development Status :: 4 - Beta',

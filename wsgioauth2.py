@@ -49,7 +49,7 @@ except ImportError:
 __author__ = 'Hong Minhee' # http://dahlia.kr/
 __email__ = 'dahlia' "@" 'stylesha.re'
 __license__ = 'MIT License'
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 __copyright__ = '2012, StyleShare, Inc'
 
 
