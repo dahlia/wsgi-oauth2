@@ -129,7 +129,7 @@ Changelog
 Version 0.1.3
 '''''''''''''
 
-To be released.
+Released on June 19, 2013.
 
 - :attr:`~wsgioauth2.WSGIMiddleware.forbidden_path` can now be configured.
   Default forbidden page is ugly so also allow forbidden path to be passed
