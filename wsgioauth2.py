@@ -303,7 +303,7 @@ class AccessToken(dict):
     """
 
     def __init__(self, *args, **kwargs):
-        dict.__init__(self, *args, **kwargs)
+        super(AccessToken, self).__init__(*args, **kwargs)
         if 'access_token' not in self:
             raise TypeError("'access_token' is required")
 
