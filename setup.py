@@ -57,7 +57,7 @@ setup(name='wsgi-oauth2',
       url='http://styleshare.github.io/wsgi-oauth2/',
       py_modules=['wsgioauth2'],
       classifiers=[
-          'Development Status :: 4 - Beta',
+          'Development Status :: 5 - Production/Stable',
           'Environment :: Web Environment',
           'Intended Audience :: Developers',
           'Intended Audience :: System Administrators',
@@ -67,4 +67,3 @@ setup(name='wsgi-oauth2',
           'Topic :: Internet :: WWW/HTTP :: WSGI :: Middleware'
       ],
       cmdclass=cmdclass)
-
