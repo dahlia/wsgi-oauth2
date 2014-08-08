@@ -1,15 +1,15 @@
 # Copyright (C) 2011-2013 by StyleShare, Inc.
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -380,10 +380,16 @@ class WSGIMiddleware(object):
                                   this to :const:`True` to pass the request
                                   through to the protected application.
     :type forbidden_passthrough: bool
+    :param login_path:  The base path under which login will be required. Any
+                        URL starting with this path will trigger the OAuth2
+                        process.  The default is '/', meaning that the entire
+                        application is protected.  To override the default
+                        path see the :attr:`login_path` option.
+    :type login_path: :class:`basestring`
 
     """
 
-    #: (:class:`basestring`) The default name for :attr:`cookie`. 
+    #: (:class:`basestring`) The default name for :attr:`cookie`.
     DEFAULT_COOKIE = 'wsgioauth2sess'
 
     #: (:class:`Client`) The OAuth2 client.
@@ -411,13 +417,20 @@ class WSGIMiddleware(object):
     #: through to the protected application.
     forbidden_passthrough = None
 
+    #: (:class:`basestring`) The base path under which login will be required.
+    #: Any URL starting with this path will trigger the OAuth2 process.  The
+    #: default is '/', meaning that the entire application is protected.  To
+    #: override the default path see the :attr:`login_path` option.
+    login_path = None
+
     #: (:class:`basestring`) The cookie name to be used for maintaining
     #: the user session.
     cookie = None
 
     def __init__(self, client, application, secret,
                  path=None, cookie=DEFAULT_COOKIE, set_remote_user=False,
-                 forbidden_path=None, forbidden_passthrough=False):
+                 forbidden_path=None, forbidden_passthrough=False,
+                 login_path=None):
         if not isinstance(client, Client):
             raise TypeError('client must be a wsgioauth2.Client instance, '
                             'not ' + repr(client))
@@ -431,6 +444,10 @@ class WSGIMiddleware(object):
         if not (forbidden_path is None or
                 isinstance(forbidden_path, basestring)):
             raise TypeError('forbidden_path must be a string, not ' +
+                            repr(path))
+        if not (login_path is None or
+                isinstance(login_path, basestring)):
+            raise TypeError('login_path must be a string, not ' +
                             repr(path))
         if not isinstance(cookie, basestring):
             raise TypeError('cookie must be a string, not ' + repr(cookie))
@@ -450,6 +467,12 @@ class WSGIMiddleware(object):
             forbidden_path = '/' + forbidden_path
         self.forbidden_path = forbidden_path
         self.forbidden_passthrough = forbidden_passthrough
+        if login_path is None:
+            login_path = '/'
+        # login_path must start with a / to ensure proper matching
+        if not login_path.startswith('/'):
+            login_path = '/' + login_path
+        self.login_path = login_path
         self.cookie = cookie
         self.set_remote_user = set_remote_user
 
@@ -536,31 +559,35 @@ class WSGIMiddleware(object):
             return self.redirect(query_dict.get('state', [''])[0],
                                  start_response,
                                  headers={'Set-Cookie': set_cookie})
-        elif self.cookie in cookie_dict:
-            session = cookie_dict[self.cookie].value
-            session = base64.urlsafe_b64decode(session)
-            if ',' in session:
-                sig, val = session.split(',', 1)
-                if sig == hmac.new(self.secret, val, hashlib.sha1).hexdigest():
-                    try:
-                        session = pickle.loads(val)
-                    except pickle.UnpicklingError:
+        elif environ.get('PATH_INFO').startswith(self.login_path):
+            if self.cookie in cookie_dict:
+                session = cookie_dict[self.cookie].value
+                session = base64.urlsafe_b64decode(session)
+                if ',' in session:
+                    sig, val = session.split(',', 1)
+                    if sig == hmac.new(self.secret, val, hashlib.sha1).hexdigest():
+                        try:
+                            session = pickle.loads(val)
+                        except pickle.UnpicklingError:
+                            session = None
+                    else:
                         session = None
                 else:
                     session = None
             else:
                 session = None
-        else:
-            session = None
-        if session is None:
-            return self.redirect(
-                self.client.make_authorize_url(redirect_uri, state=url),
-                start_response
-            )
-        environ = dict(environ)
-        environ['wsgioauth2.session'] = session
-        if self.set_remote_user and session['username']:
-            environ['REMOTE_USER'] = session['username']
+
+            if session is None:
+                return self.redirect(
+                    self.client.make_authorize_url(redirect_uri, state=url),
+                    start_response
+                )
+            else:
+                environ = dict(environ)
+                environ['wsgioauth2.session'] = session
+                if self.set_remote_user and session['username']:
+                    environ['REMOTE_USER'] = session['username']
+
         return self.application(environ, start_response)
 
 

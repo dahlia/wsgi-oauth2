@@ -126,6 +126,13 @@ The package is written by `Hong Minhee`_ for StyleShare_.
 Changelog
 ---------
 
+Version 0.1.4
+'''''''''''''
+
+- :attr:`~wsgioauth2.WSGIMiddleware.login_path` can now be configured to
+  protect only a subsection of an application.
+  [:pull:`8` by Aymeric Augustin]
+
 Version 0.1.3
 '''''''''''''
 
