@@ -1,4 +1,4 @@
-# Copyright (C) 2011-2013 by StyleShare, Inc.
+# Copyright (C) 2011-2014 by Hong Minhee <http://hongminhee.org/>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -46,11 +46,11 @@ try:
 except ImportError:
     import pickle
 
-__author__ = 'Hong Minhee' # http://dahlia.kr/
-__email__ = 'dahlia' "@" 'stylesha.re'
+__author__ = 'Hong Minhee'  # http://hongminhee.org/
+__email__ = 'minhee' "@" 'dahlia.kr'
 __license__ = 'MIT License'
 __version__ = '0.1.4'
-__copyright__ = '2011-2013, StyleShare Inc.'
+__copyright__ = '2011-2014, Hong Minhee'
 
 
 class Service(object):

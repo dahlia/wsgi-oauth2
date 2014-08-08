@@ -18,5 +18,5 @@ Read the documentation_ as well.
 .. _Facebook: http://www.facebook.com/
 .. _Google: http://www.google.com/
 .. _PyPI: https://pypi.python.org/pypi/wsgi-oauth2
-.. _documentation: http://styleshare.github.io/wsgi-oauth2/
+.. _documentation: http://hongminhee.org/wsgi-oauth2/
 

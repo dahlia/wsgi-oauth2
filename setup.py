@@ -34,7 +34,7 @@ class upload_doc(distutils.cmd.Command):
         build = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              'build', 'sphinx', 'html')
         os.chdir(path)
-        os.system('git clone git@github.com:StyleShare/wsgi-oauth2.git .')
+        os.system('git clone git@github.com:dahlia/wsgi-oauth2.git .')
         os.system('git checkout gh-pages')
         os.system('git rm -r .')
         os.system('touch .nojekyll')
@@ -54,7 +54,7 @@ setup(name='wsgi-oauth2',
       version=wsgioauth2.__version__,
       author=wsgioauth2.__author__,
       author_email=wsgioauth2.__email__,
-      url='http://styleshare.github.io/wsgi-oauth2/',
+      url='http://hongminhee.org/wsgi-oauth2/',
       py_modules=['wsgioauth2'],
       classifiers=[
           'Development Status :: 5 - Production/Stable',

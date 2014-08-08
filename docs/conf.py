@@ -259,8 +259,8 @@ intersphinx_mapping = {'http://docs.python.org/': None,
                        'http://simplejson.readthedocs.org/en/latest/': None}
 
 extlinks = {
-    'pull': ('https://github.com/StyleShare/wsgi-oauth2/pull/%s',
+    'pull': ('https://github.com/dahlia/wsgi-oauth2/pull/%s',
              'pull request #'),
-    'issue': ('https://github.com/StyleShare/wsgi-oauth2/issues/%s',
+    'issue': ('https://github.com/dahlia/wsgi-oauth2/issues/%s',
               'issue #')
 }
