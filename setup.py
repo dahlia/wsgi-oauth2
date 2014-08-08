@@ -54,6 +54,7 @@ setup(name='wsgi-oauth2',
       version=wsgioauth2.__version__,
       author=wsgioauth2.__author__,
       author_email=wsgioauth2.__email__,
+      license='MIT license',
       url='http://hongminhee.org/wsgi-oauth2/',
       py_modules=['wsgioauth2'],
       classifiers=[
