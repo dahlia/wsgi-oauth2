@@ -39,7 +39,7 @@ If you want to use the bleeding edge, install it from the :ref:`Git repository
 
 .. sourcecode:: console
 
-   $ pip install git+git://github.com/StyleShare/wsgi-oauth2.git
+   $ pip install git+git://github.com/dahlia/wsgi-oauth2.git
 
 .. _PyPI: http://pypi.python.org/pypi/wsgi-oauth2
 
@@ -98,11 +98,11 @@ The source code is available under MIT license. Check out from the GitHub_:
 
 .. sourcecode:: console
 
-   $ git clone git://github.com/StyleShare/wsgi-oauth2.git
+   $ git clone git://github.com/dahlia/wsgi-oauth2.git
 
 We welcome pull requests as well!
 
-.. _GitHub: https://github.com/StyleShare/wsgi-oauth2
+.. _GitHub: https://github.com/dahlia/wsgi-oauth2
 
 
 Bugs
@@ -111,16 +111,15 @@ Bugs
 If you found bugs or want to propose some improvement ideas, use the
 `issue tracker`_.
 
-.. _issue tracker: https://github.com/StyleShare/wsgi-oauth2/issues
+.. _issue tracker: https://github.com/dahlia/wsgi-oauth2/issues
 
 
 Author
 ------
 
-The package is written by `Hong Minhee`_ for StyleShare_.
+The package is written by `Hong Minhee`_.
 
-.. _Hong Minhee: http://dahlia.kr/
-.. _StyleShare: https://stylesha.re/
+.. _Hong Minhee: http://hongminhee.org/
 
 
 Changelog
