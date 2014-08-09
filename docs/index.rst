@@ -166,6 +166,7 @@ Version 0.1.2
 Released on March 22, 2013.
 
 - Add predefined GitHub service (:data:`wsgioauth2.github`).
+  [:pull:`3` by Mike Milner]
 - Add option to set :envvar:`REMOTE_USER`.  [:pull:`3` by Mike Milner]
 
 

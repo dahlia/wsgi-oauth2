@@ -114,6 +114,8 @@ class Service(object):
 
         :param access_token: a valid :class:`AccessToken`
 
+        .. versionadded:: 0.1.2
+
         """
         raise NotImplementedError(
             "This Service does not provide a username for REMOTE_USER")
@@ -125,6 +127,8 @@ class Service(object):
         access based on additional information known by the service.
 
         :param access_token: a valid :class:`AccessToken`
+
+        .. versionadded:: 0.1.3
 
         """
         return True
@@ -153,6 +157,12 @@ class GitHubService(Service):
                          protected application.
     :type allowed_orgs: :class:`basestring`,
                         :class:`collections.Container` of :class:`basestring`
+
+    .. versionadded:: 0.1.3
+       The ``allowed_orgs`` option.
+
+    .. versionadded:: 0.1.2
+
     """
 
     def __init__(self, allowed_orgs=None):
@@ -172,6 +182,8 @@ class GitHubService(Service):
 
         :param access_token: a valid :class:`AccessToken`
 
+        .. versionadded:: 0.1.2
+
         """
         response = access_token.get('https://api.github.com/user')
         response = response.read()
@@ -188,6 +200,8 @@ class GitHubService(Service):
         authenticated users will be allowed.
 
         :param access_token: a valid :class:`AccessToken`
+
+        .. versionadded:: 0.1.3
 
         """
         # if there is no list of allowed organizations, any authenticated user
@@ -280,6 +294,8 @@ class Client(object):
         the 'login' variable is used.
 
         :param access_token: a valid :class:`AccessToken`
+
+        .. versionadded:: 0.1.2
 
         """
         self.service.load_username(access_token)
@@ -401,7 +417,7 @@ class WSGIMiddleware(object):
     :param set_remote_user: Set to True to set the REMOTE_USER environment
                             variable to the authenticated username (if supported
                             by the :class:`Service`)
-    :type set_remote_user: bool
+    :type set_remote_user: :class:`bool`
     :param forbidden_path: What path should be used to display the 403 Forbidden
                            page.  Any forbidden user will be redirected to this
                            path and a default 403 Forbidden page will be shown.
@@ -413,13 +429,22 @@ class WSGIMiddleware(object):
                                   generic Forbidden page will be generated. Set
                                   this to :const:`True` to pass the request
                                   through to the protected application.
-    :type forbidden_passthrough: bool
+    :type forbidden_passthrough: :class:`bool`
     :param login_path:  The base path under which login will be required. Any
                         URL starting with this path will trigger the OAuth2
                         process.  The default is '/', meaning that the entire
                         application is protected.  To override the default
                         path see the :attr:`login_path` option.
     :type login_path: :class:`basestring`
+
+    .. versionadded:: 0.1.4
+       The ``login_path`` option.
+
+    .. versionadded:: 0.1.3
+       The ``forbidden_path`` and ``forbidden_passthrough`` options.
+
+    .. versionadded:: 0.1.2
+       The ``set_remote_user`` option.
 
     """
 
@@ -455,6 +480,8 @@ class WSGIMiddleware(object):
     #: Any URL starting with this path will trigger the OAuth2 process.  The
     #: default is '/', meaning that the entire application is protected.  To
     #: override the default path see the :attr:`login_path` option.
+    #:
+    #: .. versionadded:: 0.1.4
     login_path = None
 
     #: (:class:`basestring`) The cookie name to be used for maintaining
@@ -657,6 +684,8 @@ google = Service(
 )
 
 #: (:class:`GitHubService`) The predefined service for GitHub__.
+#:
+#: .. versionadded:: 0.1.2
 #:
 #: __ https://github.com/
 github = GitHubService()
