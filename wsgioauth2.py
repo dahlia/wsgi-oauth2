@@ -28,29 +28,52 @@ authenticate via the specific `OAuth 2.0`_ service e.g. Facebook_, Google_.
 .. _Google: http://www.google.com/
 
 """
-import random
-import urllib
-import urllib2
-import urlparse
-import hmac
-import hashlib
 import base64
-import Cookie
+import binascii
 import cgi
+try:
+    import Cookie
+except ImportError:
+    from http import cookies as Cookie
+import hashlib
+import hmac
 try:
     import simplejson as json
 except ImportError:
     import json
+import numbers
 try:
     import cPickle as pickle
 except ImportError:
     import pickle
+import random
+try:
+    import urllib2
+except ImportError:
+    from urllib import request as urllib2
+try:
+    import urlparse
+except ImportError:
+    from urllib import parse as urlparse
+    urlencode = urlparse.urlencode
+else:
+    from urllib import urlencode
 
 __author__ = 'Hong Minhee'  # http://hongminhee.org/
 __email__ = 'minhee' "@" 'dahlia.kr'
 __license__ = 'MIT License'
 __version__ = '0.2.0'
 __copyright__ = '2011-2014, Hong Minhee'
+
+__all__ = ('AccessToken', 'Client', 'GitHubService', 'GithubService',
+           'Service', 'WSGIMiddleware', 'github', 'google', 'facebook')
+
+
+# Python 3 compatibility
+try:
+    basestring
+except NameError:
+    basestring = str
 
 
 class Service(object):
@@ -110,7 +133,7 @@ class Service(object):
         """Makes a :class:`Client` for the service.
 
         :param client_id: a client id
-        :type client_id: :class:`basestring`, :class:`int`, :class:`long`
+        :type client_id: :class:`basestring`, :class:`numbers.Integral`
         :param client_secret: client secret key
         :type client_secret: :class:`basestring`
         :returns: a client for the service
@@ -150,7 +173,7 @@ class GitHubService(Service):
         :param access_token: a valid :class:`AccessToken`
 
         """
-        response = access_token.get('https://api.github.com/user');
+        response = access_token.get('https://api.github.com/user')
         response = response.read()
         response = json.loads(response)
         # Copy useful data
@@ -192,9 +215,9 @@ class Client(object):
     :param service: service the client connects to
     :type servie: :class:`Service`
     :param client_id: client id
-    :type client_id: :class:`basestring`, :class:`int`, :class:`long`
+    :type client_id: :class:`basestring`, :class:`numbers.Integral`
     :param client_secret: client secret key
-    :type client_secret: :class:`basestring`
+    :type client_secret: :class:basestring`
     :param \*\*extra: additional arguments for authorization e.g.
                       ``scope='email,read_stream'``
 
@@ -216,7 +239,7 @@ class Client(object):
         if not isinstance(service, Service):
             raise TypeError('service must be a wsgioauth2.Service instance, '
                             'not ' + repr(service))
-        elif isinstance(client_id, (int, long)):
+        elif isinstance(client_id, numbers.Integral):
             client_id = str(client_id)
         elif not isinstance(client_id, basestring):
             raise TypeError('client_id must be a string, not ' +
@@ -248,7 +271,7 @@ class Client(object):
         if state is not None:
             query['state'] = state
         return '{0}?{1}'.format(self.service.authorize_endpoint,
-                                urllib.urlencode(query))
+                                urlencode(query))
 
     def load_username(self, access_token):
         """Load a username from the configured service suitable for the
@@ -282,12 +305,23 @@ class Client(object):
                 'redirect_uri': redirect_uri,
                 'grant_type': 'authorization_code'}
         u = urllib2.urlopen(self.service.access_token_endpoint,
-                            data=urllib.urlencode(form))
-        content_type = u.info().gettype()
+                            data=urlencode(form).encode('utf-8'))
+        m = u.info()
+        try:
+            # Python 2
+            content_type = m.gettype()
+        except AttributeError:
+            # Python 3
+            content_type = m.get_content_type()
         if content_type == 'application/json':
             data = json.load(u)
         else:
-            data = urlparse.parse_qs(u.read())
+            data = dict(
+                (k.decode('utf-8')
+                 if not isinstance(k, str) and isinstance(k, bytes)
+                 else k, v)
+                for k, v in urlparse.parse_qs(u.read()).items()
+            )
         u.close()
         return AccessToken(data)
 
@@ -357,7 +391,7 @@ class WSGIMiddleware(object):
     :param application: wsgi application
     :type application: callable object
     :param secret: secret key for generating HMAC signature
-    :type secret: :class:`basestring`
+    :type secret: :class:`bytes`
     :param path: path prefix used for callback. by default, a randomly
                  generated complex path is used
     :type path: :class:`basestring`
@@ -398,7 +432,7 @@ class WSGIMiddleware(object):
     #: (callable object) The wrapped WSGI application.
     application = None
 
-    #: (:class:`basestring`) The secret key for generating HMAC signature.
+    #: (:class:`bytes`) The secret key for generating HMAC signature.
     secret = None
 
     #: (:class:`basestring`) The path prefix for callback URL. It always
@@ -437,8 +471,8 @@ class WSGIMiddleware(object):
         if not callable(application):
             raise TypeError('application must be an WSGI compliant callable, '
                             'not ' + repr(application))
-        if not isinstance(secret, basestring):
-            raise TypeError('secret must be a string, not ' + repr(secret))
+        if not isinstance(secret, bytes):
+            raise TypeError('secret must be bytes, not ' + repr(secret))
         if not (path is None or isinstance(path, basestring)):
             raise TypeError('path must be a string, not ' + repr(path))
         if not (forbidden_path is None or
@@ -457,7 +491,7 @@ class WSGIMiddleware(object):
         if path is None:
             seq = ('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
                    'abcdefghijklmnopqrstuvwxyz_-.')
-            path = ''.join(random.choice(seq) for x in xrange(40))
+            path = ''.join(random.choice(seq) for x in range(40))
             path = '__{0}__'.format(path)
         self.path = '/{0}/'.format(path.strip('/'))
         if forbidden_path is None:
@@ -476,33 +510,41 @@ class WSGIMiddleware(object):
         self.cookie = cookie
         self.set_remote_user = set_remote_user
 
+    def sign(self, value):
+        """Generate signature of the given ``value``."""
+        if not isinstance(value, bytes):
+            raise TypeError('expected bytes, not ' + repr(value))
+        return hmac.new(self.secret, value, hashlib.sha1).hexdigest()
+
     def redirect(self, url, start_response, headers={}):
         h = {'Content-Type': 'text/html; charset=utf-8', 'Location': url}
         h.update(headers)
-        start_response('307 Temporary Redirect', h.items())
-        e_url = cgi.escape(url)
-        yield '<!DOCTYPE html>'
-        yield '<html><head><meta charset="utf-8">'
-        yield '<meta http-equiv="refresh" content="0; url='
+        start_response('307 Temporary Redirect', list(h.items()))
+        e_url = cgi.escape(url).encode('iso-8859-1')
+        yield b'<!DOCTYPE html>'
+        yield b'<html><head><meta charset="utf-8">'
+        yield b'<meta http-equiv="refresh" content="0; url='
         yield e_url
-        yield '"><title>Redirect to '
+        yield b'"><title>Redirect to '
         yield e_url
-        yield '</title></head><body><p>Redirect to <a href="'
+        yield b'</title></head><body><p>Redirect to <a href="'
         yield e_url
-        yield '">'
+        yield b'">'
         yield e_url
-        yield '</a>&hellip;</p></body></html>'
+        yield b'</a>&hellip;</p></body></html>'
 
     def forbidden(self, start_response):
         """Respond with an HTTP 403 Forbidden status."""
-        h = {'Content-Type': 'text/html; charset=utf-8'}
-        start_response('403 Forbidden', h.items())
-        yield '<!DOCTYPE html>'
-        yield '<html><head><meta charset="utf-8">'
-        yield '<title>Forbidden</title></head>'
-        yield '<body><p>403 Forbidden - '
-        yield 'Your account does not have access to the requested resource.'
-        yield '</p></body></html>'
+        h = [('Content-Type', 'text/html; charset=utf-8')]
+        start_response('403 Forbidden', h)
+        yield b'<!DOCTYPE html>'
+        yield b'<html><head><meta charset="utf-8">'
+        yield b'<title>Forbidden</title></head>'
+        yield b'<body><p>403 Forbidden - '
+        yield b'Your account does not have access to the requested resource.'
+        yield b'<pre>'
+        yield b'</pre>'
+        yield b'</p></body></html>'
 
     def __call__(self, environ, start_response):
         url = '{0}://{1}{2}'.format(environ.get('wsgi.url_scheme', 'http'),
@@ -516,14 +558,14 @@ class WSGIMiddleware(object):
         cookie_dict = Cookie.SimpleCookie()
         cookie_dict.load(environ.get('HTTP_COOKIE', ''))
         query_dict = urlparse.parse_qs(query_string)
-
-        if environ.get('PATH_INFO').startswith(self.forbidden_path):
+        path = environ['PATH_INFO']
+        if path.startswith(self.forbidden_path):
             if self.forbidden_passthrough:
                 # Pass the forbidden request through to the app
-                return self.application(environ, start_response);
+                return self.application(environ, start_response)
             return self.forbidden(start_response)
 
-        elif environ.get('PATH_INFO').startswith(self.path):
+        elif path.startswith(self.path):
             code = query_dict.get('code')
             if not code:
                 # No code in URL - forbidden
@@ -546,11 +588,11 @@ class WSGIMiddleware(object):
                 return self.redirect(forbidden_uri, start_response)
 
             session = pickle.dumps(access_token)
-            sig = hmac.new(self.secret, session, hashlib.sha1).hexdigest()
-            signed_session = '{0},{1}'.format(sig, session)
+            sig = self.sign(session)
+            signed_session = sig.encode('ascii') + b',' + session
             signed_session = base64.urlsafe_b64encode(signed_session)
             set_cookie = Cookie.SimpleCookie()
-            set_cookie[self.cookie] = signed_session
+            set_cookie[self.cookie] = signed_session.decode('ascii')
             set_cookie[self.cookie]['path'] = '/'
             if 'expires_in' in access_token:
                 expires_in = int(access_token['expires_in'])
@@ -559,16 +601,19 @@ class WSGIMiddleware(object):
             return self.redirect(query_dict.get('state', [''])[0],
                                  start_response,
                                  headers={'Set-Cookie': set_cookie})
-        elif environ.get('PATH_INFO').startswith(self.login_path):
+        elif path.startswith(self.login_path):
             if self.cookie in cookie_dict:
                 session = cookie_dict[self.cookie].value
-                session = base64.urlsafe_b64decode(session)
-                if ',' in session:
-                    sig, val = session.split(',', 1)
-                    if sig == hmac.new(self.secret, val, hashlib.sha1).hexdigest():
+                try:
+                    session = base64.urlsafe_b64decode(session)
+                except binascii.Error:
+                    session = b''
+                if b',' in session:
+                    sig, val = session.split(b',', 1)
+                    if sig.decode('ascii') == self.sign(val):
                         try:
                             session = pickle.loads(val)
-                        except pickle.UnpicklingError:
+                        except (pickle.UnpicklingError, ValueError):
                             session = None
                     else:
                         session = None
