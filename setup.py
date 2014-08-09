@@ -64,7 +64,7 @@ class upload_doc(distutils.cmd.Command):
         shutil.rmtree(path)
 
 
-cmdclass = {'upload_doc': upload_doc}
+cmdclass = {'upload_doc': upload_doc, 'upload_docs': upload_doc}
 
 
 setup(name='wsgi-oauth2',
