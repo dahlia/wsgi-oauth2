@@ -52,6 +52,9 @@ __license__ = 'MIT License'
 __version__ = '0.1.4'
 __copyright__ = '2011-2014, Hong Minhee'
 
+__all__ = ('AccessToken', 'Client', 'GitHubService', 'GithubService',
+           'Service', 'WSGIMiddleware', 'github', 'google', 'facebook')
+
 
 class Service(object):
     """OAuth 2.0 service provider e.g. Facebook, Google. It takes
