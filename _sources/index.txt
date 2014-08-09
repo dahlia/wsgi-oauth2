@@ -96,7 +96,7 @@ Basic usage
 Source code
 -----------
 
-The source code is available under MIT license. Check out from the GitHub_:
+The source code is available under MIT license. Check out from the GitHub__:
 
 .. sourcecode:: console
 
@@ -104,7 +104,7 @@ The source code is available under MIT license. Check out from the GitHub_:
 
 We welcome pull requests as well!
 
-.. _GitHub: https://github.com/dahlia/wsgi-oauth2
+__ https://github.com/dahlia/wsgi-oauth2
 
 
 Bugs
