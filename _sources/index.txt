@@ -9,17 +9,19 @@ wsgi-oauth2
 .. image:: _static/oauth2.png
 
 This module provides a simple WSGI middleware that requires the user to
-authenticate via the specific `OAuth 2.0`_ service e.g. Facebook_, Google_.
+authenticate via the specific `OAuth 2.0`_ service e.g. Facebook_, Google_,
+GitHub_.
 
 .. _OAuth 2.0: http://oauth.net/2/
 .. _Facebook: http://www.facebook.com/
 .. _Google: http://www.google.com/
+.. _GitHub: https://github.com/
 
 
 Prerequisites
 -------------
 
-It requires Python 2.6 or higher. (Not tested on Python 3 or higher.)
+It requires Python 2.6, 2.7, 3.2 or higher.
 It has no dependencies for non standard libraries, but if there is an installed
 :mod:`simplejson` library, it will be used instead of the standard :mod:`json`
 package.
@@ -125,6 +127,14 @@ The package is written by `Hong Minhee`_.
 Changelog
 ---------
 
+Version 0.2.0
+'''''''''''''
+
+Released on August 10, 2014.
+
+- Now it bocomes compatible with Python 3.2 or later.
+
+
 Version 0.1.4
 '''''''''''''
 
@@ -158,6 +168,7 @@ Version 0.1.2
 Released on March 22, 2013.
 
 - Add predefined GitHub service (:data:`wsgioauth2.github`).
+  [:pull:`3` by Mike Milner]
 - Add option to set :envvar:`REMOTE_USER`.  [:pull:`3` by Mike Milner]
 
 
