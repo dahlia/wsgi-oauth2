@@ -11,7 +11,7 @@ You can install the package via downloading from PyPI_:
 
 .. code-block:: console
 
-   $ easy_install wsgi-oauth2
+   $ pip install wsgi-oauth2
 
 Read the documentation_ as well.
 
