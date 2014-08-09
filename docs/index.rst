@@ -125,6 +125,14 @@ The package is written by `Hong Minhee`_.
 Changelog
 ---------
 
+Version 0.2.0
+'''''''''''''
+
+To be released.
+
+- Now it bocomes compatible with Python 3.2 or later.
+
+
 Version 0.1.4
 '''''''''''''
 

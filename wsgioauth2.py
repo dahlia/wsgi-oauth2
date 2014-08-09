@@ -511,7 +511,11 @@ class WSGIMiddleware(object):
         self.set_remote_user = set_remote_user
 
     def sign(self, value):
-        """Generate signature of the given ``value``."""
+        """Generate signature of the given ``value``.
+
+        .. versionadded:: 0.2.0
+
+        """
         if not isinstance(value, bytes):
             raise TypeError('expected bytes, not ' + repr(value))
         return hmac.new(self.secret, value, hashlib.sha1).hexdigest()
