@@ -21,7 +21,7 @@ GitHub_.
 Prerequisites
 -------------
 
-It requires Python 2.6 or higher. (Not tested on Python 3 or higher.)
+It requires Python 2.6, 2.7, 3.2 or higher.
 It has no dependencies for non standard libraries, but if there is an installed
 :mod:`simplejson` library, it will be used instead of the standard :mod:`json`
 package.
