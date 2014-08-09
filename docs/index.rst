@@ -130,7 +130,7 @@ Changelog
 Version 0.2.0
 '''''''''''''
 
-To be released.
+Released on August 10, 2014.
 
 - Now it bocomes compatible with Python 3.2 or later.
 
