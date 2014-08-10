@@ -190,7 +190,7 @@ class GitHubService(Service):
         response = json.loads(response)
         # Copy useful data
         access_token["username"] = response["login"]
-        access_token["name"] = response["name"]
+        access_token["name"] = response.get("name", "")
 
     def is_user_allowed(self, access_token):
         """Check if the authenticated user is allowed to access the protected
