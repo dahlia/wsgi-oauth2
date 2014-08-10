@@ -132,6 +132,10 @@ Version 0.2.1
 
 To be released
 
+- Fixed a bug that :class:`~wsgioauth2.GitHubService` raises :exc:`KeyError`
+  when users who didn't declare their name on GitHub tries to login.
+  [:pull:`9` by Aymeric Augustin]
+
 
 Version 0.2.0
 '''''''''''''
