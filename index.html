@@ -1,32 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>wsgi-oauth2 &mdash; wsgi-oauth2 v0.2.0</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wsgi-oauth2 &#8212; wsgi-oauth2 v0.2.1</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.2.0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="wsgi-oauth2 v0.2.0" href="#" /> 
-  </head>
-  <body>
-    <div class="related">
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -35,13 +27,14 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">wsgi-oauth2 v0.2.0</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">wsgi-oauth2 v0.2.1</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">wsgi-oauth2</a></li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="wsgi-oauth2">
 <h1>wsgi-oauth2<a class="headerlink" href="#wsgi-oauth2" title="Permalink to this headline">¶</a></h1>
@@ -53,506 +46,457 @@ authenticate via the specific <a class="reference external" href="http://oauth.n
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <p>It requires Python 2.6, 2.7, 3.2 or higher.
 It has no dependencies for non standard libraries, but if there is an installed
-<a class="reference external" href="http://simplejson.readthedocs.org/en/latest/index.html#module-simplejson" title="(in simplejson v3.6)"><tt class="xref py py-mod docutils literal"><span class="pre">simplejson</span></tt></a> library, it will be used instead of the standard <a class="reference external" href="http://docs.python.org/library/json.html#module-json" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">json</span></tt></a>
+<a class="reference external" href="https://simplejson.readthedocs.io/en/latest/index.html#module-simplejson" title="(in simplejson v3.16)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">simplejson</span></code></a> library, it will be used instead of the standard <a class="reference external" href="https://docs.python.org/3/library/json.html#module-json" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">json</span></code></a>
 package.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>You can install the package via downloading from <a class="reference external" href="http://pypi.python.org/pypi/wsgi-oauth2">PyPI</a>:</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> pip install wsgi-oauth2
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install wsgi-oauth2
 </pre></div>
 </div>
-<p>If you want to use the bleeding edge, install it from the <a class="reference internal" href="#sourcecode"><em>Git repository</em></a>:</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> pip install git+git://github.com/dahlia/wsgi-oauth2.git
+<p>If you want to use the bleeding edge, install it from the <a class="reference internal" href="#sourcecode"><span class="std std-ref">Git repository</span></a>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install git+git://github.com/dahlia/wsgi-oauth2.git
 </pre></div>
 </div>
 </div>
 <div class="section" id="predefined-services">
 <h2>Predefined services<a class="headerlink" href="#predefined-services" title="Permalink to this headline">¶</a></h2>
 <p>There are some predefined services.</p>
-<dl class="data">
+<dl class="py data">
 <dt id="wsgioauth2.google">
-<tt class="descclassname">wsgioauth2.</tt><tt class="descname">google</tt><em class="property"> = &lt;wsgioauth2.Service object at 0x105674810&gt;</em><a class="headerlink" href="#wsgioauth2.google" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">Service</span></tt>) The predefined service for <a class="reference external" href="http://www.google.com/">Google</a>.</p>
+<code class="sig-prename descclassname">wsgioauth2.</code><code class="sig-name descname">google</code><em class="property"> = &lt;wsgioauth2.Service object&gt;</em><a class="headerlink" href="#wsgioauth2.google" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">Service</span></code></a>) The predefined service for <a class="reference external" href="http://www.google.com/">Google</a>.</p>
 </dd></dl>
 
-<dl class="data">
+<dl class="py data">
 <dt id="wsgioauth2.facebook">
-<tt class="descclassname">wsgioauth2.</tt><tt class="descname">facebook</tt><em class="property"> = &lt;wsgioauth2.Service object at 0x105674750&gt;</em><a class="headerlink" href="#wsgioauth2.facebook" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">Service</span></tt>) The predefined service for <a class="reference external" href="https://www.facebook.com/">Facebook</a>.</p>
+<code class="sig-prename descclassname">wsgioauth2.</code><code class="sig-name descname">facebook</code><em class="property"> = &lt;wsgioauth2.Service object&gt;</em><a class="headerlink" href="#wsgioauth2.facebook" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">Service</span></code></a>) The predefined service for <a class="reference external" href="https://www.facebook.com/">Facebook</a>.</p>
 </dd></dl>
 
-<dl class="data">
+<dl class="py data">
 <dt id="wsgioauth2.github">
-<tt class="descclassname">wsgioauth2.</tt><tt class="descname">github</tt><em class="property"> = &lt;wsgioauth2.GitHubService object at 0x105674850&gt;</em><a class="headerlink" href="#wsgioauth2.github" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">GitHubService</span></tt>) The predefined service for <a class="reference external" href="https://github.com/">GitHub</a>.</p>
+<code class="sig-prename descclassname">wsgioauth2.</code><code class="sig-name descname">github</code><em class="property"> = &lt;wsgioauth2.GitHubService object&gt;</em><a class="headerlink" href="#wsgioauth2.github" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<a class="reference internal" href="#wsgioauth2.GitHubService" title="wsgioauth2.GitHubService"><code class="xref py py-class docutils literal notranslate"><span class="pre">GitHubService</span></code></a>) The predefined service for <a class="reference external" href="https://github.com/">GitHub</a>.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.2.</span></p>
+<p><span class="versionmodified added">New in version 0.1.2.</span></p>
 </div>
 </dd></dl>
 
 </div>
 <div class="section" id="basic-usage">
 <h2>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">myapp</span> <span class="kn">import</span> <span class="n">app</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myapp</span> <span class="kn">import</span> <span class="n">app</span>
 <span class="kn">from</span> <span class="nn">wsgioauth2</span> <span class="kn">import</span> <span class="n">github</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="s">&#39;...&#39;</span><span class="p">)</span>
-<span class="n">app</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">wsgi_middleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">secret</span><span class="o">=</span><span class="s">&#39;hmac*secret&#39;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">github</span><span class="o">.</span><span class="n">make_client</span><span class="p">(</span><span class="n">client_id</span><span class="o">=</span><span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="s1">&#39;...&#39;</span><span class="p">)</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">wsgi_middleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">secret</span><span class="o">=</span><span class="s1">&#39;hmac*secret&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <span class="target" id="module-wsgioauth2"></span></div>
 <div class="section" id="wsgioauth2-api-references">
-<h2><a class="reference internal" href="#module-wsgioauth2" title="wsgioauth2"><tt class="xref py py-mod docutils literal"><span class="pre">wsgioauth2</span></tt></a> &#8212; API references<a class="headerlink" href="#wsgioauth2-api-references" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<h2><a class="reference internal" href="#module-wsgioauth2" title="wsgioauth2"><code class="xref py py-mod docutils literal notranslate"><span class="pre">wsgioauth2</span></code></a> — API references<a class="headerlink" href="#wsgioauth2-api-references" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
 <dt id="wsgioauth2.Service">
-<em class="property">class </em><tt class="descclassname">wsgioauth2.</tt><tt class="descname">Service</tt><big>(</big><em>authorize_endpoint</em>, <em>access_token_endpoint</em><big>)</big><a class="headerlink" href="#wsgioauth2.Service" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wsgioauth2.</code><code class="sig-name descname">Service</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">authorize_endpoint</span></em>, <em class="sig-param"><span class="n">access_token_endpoint</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.Service" title="Permalink to this definition">¶</a></dt>
 <dd><p>OAuth 2.0 service provider e.g. Facebook, Google. It takes
 endpoint urls for authorization and access token gathering APIs.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>authorize_endpoint</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; api url for authorization</li>
-<li><strong>access_token_endpoint</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; api url for getting access token</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>authorize_endpoint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – api url for authorization</p></li>
+<li><p><strong>access_token_endpoint</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – api url for getting access token</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
+</dd>
+</dl>
+<dl class="py attribute">
 <dt id="wsgioauth2.Service.access_token_endpoint">
-<tt class="descname">access_token_endpoint</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Service.access_token_endpoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) The API URL for getting access token.</p>
+<code class="sig-name descname">access_token_endpoint</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Service.access_token_endpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) The API URL for getting access token.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.Service.authorize_endpoint">
-<tt class="descname">authorize_endpoint</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Service.authorize_endpoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) The API URL for authorization.</p>
+<code class="sig-name descname">authorize_endpoint</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Service.authorize_endpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) The API URL for authorization.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.Service.is_user_allowed">
-<tt class="descname">is_user_allowed</tt><big>(</big><em>access_token</em><big>)</big><a class="headerlink" href="#wsgioauth2.Service.is_user_allowed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_user_allowed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">access_token</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.Service.is_user_allowed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the authenticated user is allowed to access the protected
 application. By default, any authenticated user is allowed access.
-Override this check to allow the <a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><tt class="xref py py-class docutils literal"><span class="pre">Service</span></tt></a> to further-restrict
+Override this check to allow the <a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">Service</span></code></a> to further-restrict
 access based on additional information known by the service.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>access_token</strong> &#8211; a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><tt class="xref py py-class docutils literal"><span class="pre">AccessToken</span></tt></a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>access_token</strong> – a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessToken</span></code></a></p>
+</dd>
+</dl>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.3.</span></p>
+<p><span class="versionmodified added">New in version 0.1.3.</span></p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.Service.load_username">
-<tt class="descname">load_username</tt><big>(</big><em>access_token</em><big>)</big><a class="headerlink" href="#wsgioauth2.Service.load_username" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">load_username</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">access_token</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.Service.load_username" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a username from the service suitable for the REMOTE_USER
-variable. A valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><tt class="xref py py-class docutils literal"><span class="pre">AccessToken</span></tt></a> is provided to allow access to
+variable. A valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessToken</span></code></a> is provided to allow access to
 authenticated resources provided by the service. If the service supports
-usernames this method must set the &#8216;username&#8217; parameter to access_token.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>access_token</strong> &#8211; a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><tt class="xref py py-class docutils literal"><span class="pre">AccessToken</span></tt></a></td>
-</tr>
-</tbody>
-</table>
+usernames this method must set the ‘username’ parameter to access_token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>access_token</strong> – a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessToken</span></code></a></p>
+</dd>
+</dl>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.2.</span></p>
+<p><span class="versionmodified added">New in version 0.1.2.</span></p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.Service.make_client">
-<tt class="descname">make_client</tt><big>(</big><em>client_id</em>, <em>client_secret</em>, <em>**extra</em><big>)</big><a class="headerlink" href="#wsgioauth2.Service.make_client" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes a <a class="reference internal" href="#wsgioauth2.Client" title="wsgioauth2.Client"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a> for the service.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>client_id</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>, <a class="reference external" href="http://docs.python.org/library/numbers.html#numbers.Integral" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">numbers.Integral</span></tt></a>) &#8211; a client id</li>
-<li><strong>client_secret</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; client secret key</li>
-<li><strong>**extra</strong> &#8211; additional arguments for authorization e.g.
-<tt class="docutils literal"><span class="pre">scope='email,read_stream'</span></tt></li>
+<code class="sig-name descname">make_client</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client_id</span></em>, <em class="sig-param"><span class="n">client_secret</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">extra</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.Service.make_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a <a class="reference internal" href="#wsgioauth2.Client" title="wsgioauth2.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a> for the service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client_id</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>, <a class="reference external" href="https://docs.python.org/3/library/numbers.html#numbers.Integral" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numbers.Integral</span></code></a>) – a client id</p></li>
+<li><p><strong>client_secret</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – client secret key</p></li>
+<li><p><strong>**extra</strong> – additional arguments for authorization e.g.
+<code class="docutils literal notranslate"><span class="pre">scope='email,read_stream'</span></code></p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a client for the service</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#wsgioauth2.Client" title="wsgioauth2.Client"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a client for the service</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#wsgioauth2.Client" title="wsgioauth2.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="wsgioauth2.Client">
-<em class="property">class </em><tt class="descclassname">wsgioauth2.</tt><tt class="descname">Client</tt><big>(</big><em>service</em>, <em>client_id</em>, <em>client_secret</em>, <em>**extra</em><big>)</big><a class="headerlink" href="#wsgioauth2.Client" title="Permalink to this definition">¶</a></dt>
-<dd><p>Client for <a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><tt class="xref py py-class docutils literal"><span class="pre">Service</span></tt></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>service</strong> &#8211; service the client connects to</li>
-<li><strong>client_id</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>, <a class="reference external" href="http://docs.python.org/library/numbers.html#numbers.Integral" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">numbers.Integral</span></tt></a>) &#8211; client id</li>
-<li><strong>client_secret</strong> (<em>:class:basestring`</em>) &#8211; client secret key</li>
-<li><strong>**extra</strong> &#8211; additional arguments for authorization e.g.
-<tt class="docutils literal"><span class="pre">scope='email,read_stream'</span></tt></li>
+<em class="property">class </em><code class="sig-prename descclassname">wsgioauth2.</code><code class="sig-name descname">Client</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">service</span></em>, <em class="sig-param"><span class="n">client_id</span></em>, <em class="sig-param"><span class="n">client_secret</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">extra</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.Client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client for <a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">Service</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> – service the client connects to</p></li>
+<li><p><strong>client_id</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>, <a class="reference external" href="https://docs.python.org/3/library/numbers.html#numbers.Integral" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numbers.Integral</span></code></a>) – client id</p></li>
+<li><p><strong>client_secret</strong> (<em>:class:basestring`</em>) – client secret key</p></li>
+<li><p><strong>**extra</strong> – additional arguments for authorization e.g.
+<code class="docutils literal notranslate"><span class="pre">scope='email,read_stream'</span></code></p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
+</dd>
+</dl>
+<dl class="py attribute">
 <dt id="wsgioauth2.Client.client_id">
-<tt class="descname">client_id</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Client.client_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) The client id.</p>
+<code class="sig-name descname">client_id</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Client.client_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) The client id.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.Client.client_secret">
-<tt class="descname">client_secret</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Client.client_secret" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) The client secret key.</p>
+<code class="sig-name descname">client_secret</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Client.client_secret" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) The client secret key.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.Client.load_username">
-<tt class="descname">load_username</tt><big>(</big><em>access_token</em><big>)</big><a class="headerlink" href="#wsgioauth2.Client.load_username" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">load_username</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">access_token</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.Client.load_username" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a username from the configured service suitable for the
-REMOTE_USER variable. A valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><tt class="xref py py-class docutils literal"><span class="pre">AccessToken</span></tt></a> is provided to allow
+REMOTE_USER variable. A valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessToken</span></code></a> is provided to allow
 access to authenticated resources provided by the service. For GitHub
-the &#8216;login&#8217; variable is used.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>access_token</strong> &#8211; a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><tt class="xref py py-class docutils literal"><span class="pre">AccessToken</span></tt></a></td>
-</tr>
-</tbody>
-</table>
+the ‘login’ variable is used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>access_token</strong> – a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessToken</span></code></a></p>
+</dd>
+</dl>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.2.</span></p>
+<p><span class="versionmodified added">New in version 0.1.2.</span></p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.Client.make_authorize_url">
-<tt class="descname">make_authorize_url</tt><big>(</big><em>redirect_uri</em>, <em>state=None</em><big>)</big><a class="headerlink" href="#wsgioauth2.Client.make_authorize_url" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">make_authorize_url</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">redirect_uri</span></em>, <em class="sig-param"><span class="n">state</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.Client.make_authorize_url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes an authorize URL.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>redirect_uri</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; callback url</li>
-<li><strong>state</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; optional state to get when the user returns to
-callback</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>redirect_uri</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – callback url</p></li>
+<li><p><strong>state</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – optional state to get when the user returns to
+callback</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">generated authorize url</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>generated authorize url</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.Client.request_access_token">
-<tt class="descname">request_access_token</tt><big>(</big><em>redirect_uri</em>, <em>code</em><big>)</big><a class="headerlink" href="#wsgioauth2.Client.request_access_token" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">request_access_token</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">redirect_uri</span></em>, <em class="sig-param"><span class="n">code</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.Client.request_access_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Requests an access token.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>redirect_uri</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; <tt class="docutils literal"><span class="pre">redirect_uri</span></tt> that was passed to
-<a class="reference internal" href="#wsgioauth2.Client.make_authorize_url" title="wsgioauth2.Client.make_authorize_url"><tt class="xref py py-meth docutils literal"><span class="pre">make_authorize_url()</span></tt></a></li>
-<li><strong>code</strong> (<tt class="xref py py-class docutils literal"><span class="pre">code</span></tt>) &#8211; verification code that authorize endpoint provides</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>redirect_uri</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – <code class="docutils literal notranslate"><span class="pre">redirect_uri</span></code> that was passed to
+<a class="reference internal" href="#wsgioauth2.Client.make_authorize_url" title="wsgioauth2.Client.make_authorize_url"><code class="xref py py-meth docutils literal notranslate"><span class="pre">make_authorize_url()</span></code></a></p></li>
+<li><p><strong>code</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">code</span></code>) – verification code that authorize endpoint provides</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">access token and additional data</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><tt class="xref py py-class docutils literal"><span class="pre">AccessToken</span></tt></a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>access token and additional data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessToken</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.Client.service">
-<tt class="descname">service</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Client.service" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><tt class="xref py py-class docutils literal"><span class="pre">Service</span></tt></a>) The service the client connects to.</p>
+<code class="sig-name descname">service</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.Client.service" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">Service</span></code></a>) The service the client connects to.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.Client.wsgi_middleware">
-<tt class="descname">wsgi_middleware</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#wsgioauth2.Client.wsgi_middleware" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">wsgi_middleware</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.Client.wsgi_middleware" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wraps a WSGI application.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="wsgioauth2.AccessToken">
-<em class="property">class </em><tt class="descclassname">wsgioauth2.</tt><tt class="descname">AccessToken</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#wsgioauth2.AccessToken" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dictionary that contains access token. It always has <tt class="docutils literal"><span class="pre">'access_token'</span></tt>
+<em class="property">class </em><code class="sig-prename descclassname">wsgioauth2.</code><code class="sig-name descname">AccessToken</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.AccessToken" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary that contains access token. It always has <code class="docutils literal notranslate"><span class="pre">'access_token'</span></code>
 key.</p>
-<dl class="attribute">
+<dl class="py method">
 <dt id="wsgioauth2.AccessToken.access_token">
-<tt class="descname">access_token</tt><a class="headerlink" href="#wsgioauth2.AccessToken.access_token" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) Access token.</p>
+<em class="property">property </em><code class="sig-name descname">access_token</code><a class="headerlink" href="#wsgioauth2.AccessToken.access_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) Access token.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.AccessToken.get">
-<tt class="descname">get</tt><big>(</big><em>url</em>, <em>headers={}</em><big>)</big><a class="headerlink" href="#wsgioauth2.AccessToken.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Requests <tt class="docutils literal"><span class="pre">url</span></tt> as <tt class="docutils literal"><span class="pre">GET</span></tt>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>headers</strong> (<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Mapping" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">collections.Mapping</span></tt></a>) &#8211; additional headers</td>
-</tr>
-</tbody>
-</table>
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">headers</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.AccessToken.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests <code class="docutils literal notranslate"><span class="pre">url</span></code> as <code class="docutils literal notranslate"><span class="pre">GET</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>headers</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">collections.Mapping</span></code>) – additional headers</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.AccessToken.post">
-<tt class="descname">post</tt><big>(</big><em>url</em>, <em>form={}</em>, <em>headers={}</em><big>)</big><a class="headerlink" href="#wsgioauth2.AccessToken.post" title="Permalink to this definition">¶</a></dt>
-<dd><p>Requests <tt class="docutils literal"><span class="pre">url</span></tt> as <tt class="docutils literal"><span class="pre">POST</span></tt>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>form</strong> (<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Mapping" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">collections.Mapping</span></tt></a>) &#8211; form data</li>
-<li><strong>headers</strong> (<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Mapping" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">collections.Mapping</span></tt></a>) &#8211; additional headers</li>
+<code class="sig-name descname">post</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">form</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">headers</span><span class="o">=</span><span class="default_value">{}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.AccessToken.post" title="Permalink to this definition">¶</a></dt>
+<dd><p>Requests <code class="docutils literal notranslate"><span class="pre">url</span></code> as <code class="docutils literal notranslate"><span class="pre">POST</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>form</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">collections.Mapping</span></code>) – form data</p></li>
+<li><p><strong>headers</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">collections.Mapping</span></code>) – additional headers</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="wsgioauth2.WSGIMiddleware">
-<em class="property">class </em><tt class="descclassname">wsgioauth2.</tt><tt class="descname">WSGIMiddleware</tt><big>(</big><em>client</em>, <em>application</em>, <em>secret</em>, <em>path=None</em>, <em>cookie='wsgioauth2sess'</em>, <em>set_remote_user=False</em>, <em>forbidden_path=None</em>, <em>forbidden_passthrough=False</em>, <em>login_path=None</em><big>)</big><a class="headerlink" href="#wsgioauth2.WSGIMiddleware" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wsgioauth2.</code><code class="sig-name descname">WSGIMiddleware</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span></em>, <em class="sig-param"><span class="n">application</span></em>, <em class="sig-param"><span class="n">secret</span></em>, <em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cookie</span><span class="o">=</span><span class="default_value">'wsgioauth2sess'</span></em>, <em class="sig-param"><span class="n">set_remote_user</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">forbidden_path</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">forbidden_passthrough</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">login_path</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.WSGIMiddleware" title="Permalink to this definition">¶</a></dt>
 <dd><p>WSGI middleware application.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>client</strong> (<a class="reference internal" href="#wsgioauth2.Client" title="wsgioauth2.Client"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a>) &#8211; oauth2 client</li>
-<li><strong>application</strong> (<em>callable object</em>) &#8211; wsgi application</li>
-<li><strong>secret</strong> (<tt class="xref py py-class docutils literal"><span class="pre">bytes</span></tt>) &#8211; secret key for generating HMAC signature</li>
-<li><strong>path</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; path prefix used for callback. by default, a randomly
-generated complex path is used</li>
-<li><strong>cookie</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; cookie name to be used for maintaining the user session.
-default is <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.DEFAULT_COOKIE" title="wsgioauth2.WSGIMiddleware.DEFAULT_COOKIE"><tt class="xref py py-const docutils literal"><span class="pre">DEFAULT_COOKIE</span></tt></a></li>
-<li><strong>set_remote_user</strong> (<tt class="xref py py-class docutils literal"><span class="pre">bool</span></tt>) &#8211; Set to True to set the REMOTE_USER environment
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="#wsgioauth2.Client" title="wsgioauth2.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a>) – oauth2 client</p></li>
+<li><p><strong>application</strong> (<em>callable object</em>) – wsgi application</p></li>
+<li><p><strong>secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) – secret key for generating HMAC signature</p></li>
+<li><p><strong>path</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – path prefix used for callback. by default, a randomly
+generated complex path is used</p></li>
+<li><p><strong>cookie</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – cookie name to be used for maintaining the user session.
+default is <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.DEFAULT_COOKIE" title="wsgioauth2.WSGIMiddleware.DEFAULT_COOKIE"><code class="xref py py-const docutils literal notranslate"><span class="pre">DEFAULT_COOKIE</span></code></a></p></li>
+<li><p><strong>set_remote_user</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Set to True to set the REMOTE_USER environment
 variable to the authenticated username (if supported
-by the <a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><tt class="xref py py-class docutils literal"><span class="pre">Service</span></tt></a>)</li>
-<li><strong>forbidden_path</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; What path should be used to display the 403 Forbidden
+by the <a class="reference internal" href="#wsgioauth2.Service" title="wsgioauth2.Service"><code class="xref py py-class docutils literal notranslate"><span class="pre">Service</span></code></a>)</p></li>
+<li><p><strong>forbidden_path</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – What path should be used to display the 403 Forbidden
 page.  Any forbidden user will be redirected to this
 path and a default 403 Forbidden page will be shown.
 To override the default Forbidden page see the
-<tt class="docutils literal"><span class="pre">forbidden_passthrough</span></tt> option.</li>
-<li><strong>forbidden_passthrough</strong> (<tt class="xref py py-class docutils literal"><span class="pre">bool</span></tt>) &#8211; Should the forbidden page be passed-through to
+<code class="docutils literal notranslate"><span class="pre">forbidden_passthrough</span></code> option.</p></li>
+<li><p><strong>forbidden_passthrough</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Should the forbidden page be passed-through to
 the protected application. By default, a
 generic Forbidden page will be generated. Set
-this to <tt class="xref py py-const docutils literal"><span class="pre">True</span></tt> to pass the request
-through to the protected application.</li>
-<li><strong>login_path</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; The base path under which login will be required. Any
+this to <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> to pass the request
+through to the protected application.</p></li>
+<li><p><strong>login_path</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – The base path under which login will be required. Any
 URL starting with this path will trigger the OAuth2
-process.  The default is &#8216;/&#8217;, meaning that the entire
+process.  The default is ‘/’, meaning that the entire
 application is protected.  To override the default
-path see the <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.login_path" title="wsgioauth2.WSGIMiddleware.login_path"><tt class="xref py py-attr docutils literal"><span class="pre">login_path</span></tt></a> option.</li>
+path see the <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.login_path" title="wsgioauth2.WSGIMiddleware.login_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">login_path</span></code></a> option.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.4: </span>The <tt class="docutils literal"><span class="pre">login_path</span></tt> option.</p>
+<p><span class="versionmodified added">New in version 0.1.4: </span>The <code class="docutils literal notranslate"><span class="pre">login_path</span></code> option.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.3: </span>The <tt class="docutils literal"><span class="pre">forbidden_path</span></tt> and <tt class="docutils literal"><span class="pre">forbidden_passthrough</span></tt> options.</p>
+<p><span class="versionmodified added">New in version 0.1.3: </span>The <code class="docutils literal notranslate"><span class="pre">forbidden_path</span></code> and <code class="docutils literal notranslate"><span class="pre">forbidden_passthrough</span></code> options.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.2: </span>The <tt class="docutils literal"><span class="pre">set_remote_user</span></tt> option.</p>
+<p><span class="versionmodified added">New in version 0.1.2: </span>The <code class="docutils literal notranslate"><span class="pre">set_remote_user</span></code> option.</p>
 </div>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.WSGIMiddleware.DEFAULT_COOKIE">
-<tt class="descname">DEFAULT_COOKIE</tt><em class="property"> = 'wsgioauth2sess'</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.DEFAULT_COOKIE" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) The default name for <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.cookie" title="wsgioauth2.WSGIMiddleware.cookie"><tt class="xref py py-attr docutils literal"><span class="pre">cookie</span></tt></a>.</p>
+<code class="sig-name descname">DEFAULT_COOKIE</code><em class="property"> = 'wsgioauth2sess'</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.DEFAULT_COOKIE" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) The default name for <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.cookie" title="wsgioauth2.WSGIMiddleware.cookie"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cookie</span></code></a>.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.WSGIMiddleware.application">
-<tt class="descname">application</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.application" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">application</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.application" title="Permalink to this definition">¶</a></dt>
 <dd><p>(callable object) The wrapped WSGI application.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.WSGIMiddleware.client">
-<tt class="descname">client</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.client" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<a class="reference internal" href="#wsgioauth2.Client" title="wsgioauth2.Client"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a>) The OAuth2 client.</p>
+<code class="sig-name descname">client</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<a class="reference internal" href="#wsgioauth2.Client" title="wsgioauth2.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a>) The OAuth2 client.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.WSGIMiddleware.cookie">
-<tt class="descname">cookie</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.cookie" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) The cookie name to be used for maintaining
+<code class="sig-name descname">cookie</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.cookie" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) The cookie name to be used for maintaining
 the user session.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.WSGIMiddleware.forbidden">
-<tt class="descname">forbidden</tt><big>(</big><em>start_response</em><big>)</big><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.forbidden" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">forbidden</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_response</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.forbidden" title="Permalink to this definition">¶</a></dt>
 <dd><p>Respond with an HTTP 403 Forbidden status.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.WSGIMiddleware.forbidden_passthrough">
-<tt class="descname">forbidden_passthrough</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.forbidden_passthrough" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">bool</span></tt>) Whether the forbidden page should be passed-through
+<code class="sig-name descname">forbidden_passthrough</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.forbidden_passthrough" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) Whether the forbidden page should be passed-through
 to the protected application.   By default, a generic Forbidden page
-will be generated.  Set this to <tt class="xref py py-const docutils literal"><span class="pre">True</span></tt> to pass the request
+will be generated.  Set this to <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> to pass the request
 through to the protected application.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.WSGIMiddleware.forbidden_path">
-<tt class="descname">forbidden_path</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.forbidden_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) The path that is used to display the 403 Forbidden
+<code class="sig-name descname">forbidden_path</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.forbidden_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) The path that is used to display the 403 Forbidden
 page.  Any forbidden user will be redirected to this path and a default
 403 Forbidden page will be shown.  To override the default Forbidden
-page see the <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.forbidden_passthrough" title="wsgioauth2.WSGIMiddleware.forbidden_passthrough"><tt class="xref py py-attr docutils literal"><span class="pre">forbidden_passthrough</span></tt></a> option.</p>
+page see the <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.forbidden_passthrough" title="wsgioauth2.WSGIMiddleware.forbidden_passthrough"><code class="xref py py-attr docutils literal notranslate"><span class="pre">forbidden_passthrough</span></code></a> option.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.WSGIMiddleware.login_path">
-<tt class="descname">login_path</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.login_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) The base path under which login will be required.
+<code class="sig-name descname">login_path</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.login_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) The base path under which login will be required.
 Any URL starting with this path will trigger the OAuth2 process.  The
-default is &#8216;/&#8217;, meaning that the entire application is protected.  To
-override the default path see the <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.login_path" title="wsgioauth2.WSGIMiddleware.login_path"><tt class="xref py py-attr docutils literal"><span class="pre">login_path</span></tt></a> option.</p>
+default is ‘/’, meaning that the entire application is protected.  To
+override the default path see the <a class="reference internal" href="#wsgioauth2.WSGIMiddleware.login_path" title="wsgioauth2.WSGIMiddleware.login_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">login_path</span></code></a> option.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.4.</span></p>
+<p><span class="versionmodified added">New in version 0.1.4.</span></p>
 </div>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.WSGIMiddleware.path">
-<tt class="descname">path</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.path" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) The path prefix for callback URL. It always
-starts and ends with <tt class="docutils literal"><span class="pre">'/'</span></tt>.</p>
+<code class="sig-name descname">path</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) The path prefix for callback URL. It always
+starts and ends with <code class="docutils literal notranslate"><span class="pre">'/'</span></code>.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="wsgioauth2.WSGIMiddleware.secret">
-<tt class="descname">secret</tt><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.secret" title="Permalink to this definition">¶</a></dt>
-<dd><p>(<tt class="xref py py-class docutils literal"><span class="pre">bytes</span></tt>) The secret key for generating HMAC signature.</p>
+<code class="sig-name descname">secret</code><em class="property"> = None</em><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.secret" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>) The secret key for generating HMAC signature.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.WSGIMiddleware.sign">
-<tt class="descname">sign</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.sign" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate signature of the given <tt class="docutils literal"><span class="pre">value</span></tt>.</p>
+<code class="sig-name descname">sign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.WSGIMiddleware.sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate signature of the given <code class="docutils literal notranslate"><span class="pre">value</span></code>.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.2.0.</span></p>
+<p><span class="versionmodified added">New in version 0.2.0.</span></p>
 </div>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="wsgioauth2.GitHubService">
-<em class="property">class </em><tt class="descclassname">wsgioauth2.</tt><tt class="descname">GitHubService</tt><big>(</big><em>allowed_orgs=None</em><big>)</big><a class="headerlink" href="#wsgioauth2.GitHubService" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wsgioauth2.</code><code class="sig-name descname">GitHubService</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">allowed_orgs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.GitHubService" title="Permalink to this definition">¶</a></dt>
 <dd><p>OAuth 2.0 service provider for GitHub with support for getting the
 authorized username.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>allowed_orgs</strong> (<tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>,
-<a class="reference external" href="http://docs.python.org/library/collections.html#collections.Container" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">collections.Container</span></tt></a> of <tt class="xref py py-class docutils literal"><span class="pre">basestring</span></tt>) &#8211; What GitHub Organizations are allowed to access the
-protected application.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>allowed_orgs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>,
+<code class="xref py py-class docutils literal notranslate"><span class="pre">collections.Container</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">basestring</span></code>) – What GitHub Organizations are allowed to access the
+protected application.</p>
+</dd>
+</dl>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.3: </span>The <tt class="docutils literal"><span class="pre">allowed_orgs</span></tt> option.</p>
+<p><span class="versionmodified added">New in version 0.1.3: </span>The <code class="docutils literal notranslate"><span class="pre">allowed_orgs</span></code> option.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.2.</span></p>
+<p><span class="versionmodified added">New in version 0.1.2.</span></p>
 </div>
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.GitHubService.is_user_allowed">
-<tt class="descname">is_user_allowed</tt><big>(</big><em>access_token</em><big>)</big><a class="headerlink" href="#wsgioauth2.GitHubService.is_user_allowed" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_user_allowed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">access_token</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.GitHubService.is_user_allowed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the authenticated user is allowed to access the protected
-application. If this <a class="reference internal" href="#wsgioauth2.GitHubService" title="wsgioauth2.GitHubService"><tt class="xref py py-class docutils literal"><span class="pre">GitHubService</span></tt></a> was created with a list of
+application. If this <a class="reference internal" href="#wsgioauth2.GitHubService" title="wsgioauth2.GitHubService"><code class="xref py py-class docutils literal notranslate"><span class="pre">GitHubService</span></code></a> was created with a list of
 allowed_orgs, the user must be a memeber of one or more of the
 allowed_orgs to get access. If no allowed_orgs were specified, all
 authenticated users will be allowed.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>access_token</strong> &#8211; a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><tt class="xref py py-class docutils literal"><span class="pre">AccessToken</span></tt></a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>access_token</strong> – a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessToken</span></code></a></p>
+</dd>
+</dl>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.3.</span></p>
+<p><span class="versionmodified added">New in version 0.1.3.</span></p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsgioauth2.GitHubService.load_username">
-<tt class="descname">load_username</tt><big>(</big><em>access_token</em><big>)</big><a class="headerlink" href="#wsgioauth2.GitHubService.load_username" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">load_username</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">access_token</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsgioauth2.GitHubService.load_username" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a username from the service suitable for the REMOTE_USER
-variable. A valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><tt class="xref py py-class docutils literal"><span class="pre">AccessToken</span></tt></a> is provided to allow access to
-authenticated resources provided by the service. For GitHub the &#8216;login&#8217;
+variable. A valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessToken</span></code></a> is provided to allow access to
+authenticated resources provided by the service. For GitHub the ‘login’
 variable is used.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>access_token</strong> &#8211; a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><tt class="xref py py-class docutils literal"><span class="pre">AccessToken</span></tt></a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>access_token</strong> – a valid <a class="reference internal" href="#wsgioauth2.AccessToken" title="wsgioauth2.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">AccessToken</span></code></a></p>
+</dd>
+</dl>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.1.2.</span></p>
+<p><span class="versionmodified added">New in version 0.1.2.</span></p>
 </div>
 </dd></dl>
 
@@ -562,7 +506,7 @@ variable is used.</p>
 <div class="section" id="source-code">
 <span id="sourcecode"></span><h2>Source code<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h2>
 <p>The source code is available under MIT license. Check out from the <a class="reference external" href="https://github.com/dahlia/wsgi-oauth2">GitHub</a>:</p>
-<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> git clone git://github.com/dahlia/wsgi-oauth2.git
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone git://github.com/dahlia/wsgi-oauth2.git
 </pre></div>
 </div>
 <p>We welcome pull requests as well!</p>
@@ -574,57 +518,68 @@ variable is used.</p>
 </div>
 <div class="section" id="author">
 <h2>Author<a class="headerlink" href="#author" title="Permalink to this headline">¶</a></h2>
-<p>The package is written by <a class="reference external" href="http://hongminhee.org/">Hong Minhee</a>.</p>
+<p>The package is written by <a class="reference external" href="https://hongminhee.org/">Hong Minhee</a>.</p>
 </div>
 <div class="section" id="changelog">
 <h2>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="version-0-2-1">
+<h3>Version 0.2.1<a class="headerlink" href="#version-0-2-1" title="Permalink to this headline">¶</a></h3>
+<p>Released on September 3, 2020.</p>
+<ul class="simple">
+<li><p>Fixed a bug that <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ImportError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ImportError</span></code></a> has raised on Python 3.8.
+[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/12">pull request #12</a> by Jörg Benesch]</p></li>
+<li><p>Fixed a bug that <a class="reference internal" href="#wsgioauth2.GitHubService" title="wsgioauth2.GitHubService"><code class="xref py py-class docutils literal notranslate"><span class="pre">GitHubService</span></code></a> raises <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a>
+when users who didn’t declare their name on GitHub tries to login.
+[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/9">pull request #9</a> by Aymeric Augustin]</p></li>
+</ul>
+</div>
 <div class="section" id="version-0-2-0">
 <h3>Version 0.2.0<a class="headerlink" href="#version-0-2-0" title="Permalink to this headline">¶</a></h3>
 <p>Released on August 10, 2014.</p>
 <ul class="simple">
-<li>Now it bocomes compatible with Python 3.2 or later.</li>
+<li><p>Now it becomes compatible with Python 3.2 or later.</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-1-4">
 <h3>Version 0.1.4<a class="headerlink" href="#version-0-1-4" title="Permalink to this headline">¶</a></h3>
 <p>Released on August 8, 2014.</p>
 <ul class="simple">
-<li><a class="reference internal" href="#wsgioauth2.WSGIMiddleware.login_path" title="wsgioauth2.WSGIMiddleware.login_path"><tt class="xref py py-attr docutils literal"><span class="pre">login_path</span></tt></a> can now be configured to
+<li><p><a class="reference internal" href="#wsgioauth2.WSGIMiddleware.login_path" title="wsgioauth2.WSGIMiddleware.login_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">login_path</span></code></a> can now be configured to
 protect only a subsection of an application.
-[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/8">pull request #8</a> by Aymeric Augustin]</li>
+[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/8">pull request #8</a> by Aymeric Augustin]</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-1-3">
 <h3>Version 0.1.3<a class="headerlink" href="#version-0-1-3" title="Permalink to this headline">¶</a></h3>
 <p>Released on June 19, 2013.</p>
 <ul class="simple">
-<li><a class="reference internal" href="#wsgioauth2.WSGIMiddleware.forbidden_path" title="wsgioauth2.WSGIMiddleware.forbidden_path"><tt class="xref py py-attr docutils literal"><span class="pre">forbidden_path</span></tt></a> can now be configured.
+<li><p><a class="reference internal" href="#wsgioauth2.WSGIMiddleware.forbidden_path" title="wsgioauth2.WSGIMiddleware.forbidden_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">forbidden_path</span></code></a> can now be configured.
 Default forbidden page is ugly so also allow forbidden path to be passed
 through to the protected application so it can be styled properly.
-[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/4">pull request #4</a> by Mike Milner]</li>
-<li><a class="reference internal" href="#wsgioauth2.GitHubService" title="wsgioauth2.GitHubService"><tt class="xref py py-class docutils literal"><span class="pre">GitHubService</span></tt></a> now takes an optional parameter
-<tt class="docutils literal"><span class="pre">allowed_orgs</span></tt> to limit access based on GitHub organizations.
-[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/4">pull request #4</a> by Mike Milner]</li>
-<li>Fix <a class="reference internal" href="#wsgioauth2.Client.request_access_token" title="wsgioauth2.Client.request_access_token"><tt class="xref py py-meth docutils literal"><span class="pre">Client.request_access_token()</span></tt></a> to understand
-<em class="mimetype">Content-Type</em> with <tt class="docutils literal"><span class="pre">charset</span></tt>.
-[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/5">pull request #5</a> by Jacob Kaplan-Moss]</li>
+[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/4">pull request #4</a> by Mike Milner]</p></li>
+<li><p><a class="reference internal" href="#wsgioauth2.GitHubService" title="wsgioauth2.GitHubService"><code class="xref py py-class docutils literal notranslate"><span class="pre">GitHubService</span></code></a> now takes an optional parameter
+<code class="docutils literal notranslate"><span class="pre">allowed_orgs</span></code> to limit access based on GitHub organizations.
+[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/4">pull request #4</a> by Mike Milner]</p></li>
+<li><p>Fix <a class="reference internal" href="#wsgioauth2.Client.request_access_token" title="wsgioauth2.Client.request_access_token"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Client.request_access_token()</span></code></a> to understand
+<em class="mimetype">Content-Type</em> with <code class="docutils literal notranslate"><span class="pre">charset</span></code>.
+[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/5">pull request #5</a> by Jacob Kaplan-Moss]</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-1-2">
 <h3>Version 0.1.2<a class="headerlink" href="#version-0-1-2" title="Permalink to this headline">¶</a></h3>
 <p>Released on March 22, 2013.</p>
 <ul class="simple">
-<li>Add predefined GitHub service (<a class="reference internal" href="#wsgioauth2.github" title="wsgioauth2.github"><tt class="xref py py-data docutils literal"><span class="pre">wsgioauth2.github</span></tt></a>).
-[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/3">pull request #3</a> by Mike Milner]</li>
-<li>Add option to set <span class="target" id="index-0"></span><tt class="xref std std-envvar docutils literal"><span class="pre">REMOTE_USER</span></tt>.  [<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/3">pull request #3</a> by Mike Milner]</li>
+<li><p>Add predefined GitHub service (<a class="reference internal" href="#wsgioauth2.github" title="wsgioauth2.github"><code class="xref py py-data docutils literal notranslate"><span class="pre">wsgioauth2.github</span></code></a>).
+[<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/3">pull request #3</a> by Mike Milner]</p></li>
+<li><p>Add option to set <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">REMOTE_USER</span></code>.  [<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/3">pull request #3</a> by Mike Milner]</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-1-1">
 <h3>Version 0.1.1<a class="headerlink" href="#version-0-1-1" title="Permalink to this headline">¶</a></h3>
 <p>Released on May 2, 2012.</p>
 <ul class="simple">
-<li>Set cookie with <tt class="docutils literal"><span class="pre">expires</span></tt> option if the response contains <tt class="docutils literal"><span class="pre">expires_in</span></tt>
-parameter.  [<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/2">pull request #2</a> by mete0r]</li>
+<li><p>Set cookie with <code class="docutils literal notranslate"><span class="pre">expires</span></code> option if the response contains <code class="docutils literal notranslate"><span class="pre">expires_in</span></code>
+parameter.  [<a class="reference external" href="https://github.com/dahlia/wsgi-oauth2/pull/2">pull request #2</a> by mete0r]</p></li>
 </ul>
 </div>
 <div class="section" id="version-0-1-0">
@@ -635,11 +590,12 @@ parameter.  [<a class="reference external" href="https://github.com/dahlia/wsgi-
 </div>
 
 
+            <div class="clearer"></div>
           </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -648,12 +604,13 @@ parameter.  [<a class="reference external" href="https://github.com/dahlia/wsgi-
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">wsgi-oauth2 v0.2.0</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">wsgi-oauth2 v0.2.1</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">wsgi-oauth2</a></li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011-2014, Hong Minhee.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011-2020, Hong Minhee.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>
