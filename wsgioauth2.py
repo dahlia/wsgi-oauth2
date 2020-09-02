@@ -1,4 +1,4 @@
-# Copyright (C) 2011-2014 by Hong Minhee <http://hongminhee.org/>
+# Copyright (C) 2011-2020 by Hong Minhee <https://hongminhee.org/>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This module provides a simple WSGI middleware that requires the user to
-authenticate via the specific `OAuth 2.0`_ service e.g. Facebook_, Google_.
+authenticate via the specific `OAuth 2.0`_ service, e.g., Facebook_, Google_.
 
 .. _OAuth 2.0: http://oauth.net/2/
 .. _Facebook: http://www.facebook.com/
@@ -65,7 +65,7 @@ else:
 __author__ = 'Hong Minhee'  # http://hongminhee.org/
 __email__ = 'hong.minhee' "@" 'gmail.com'
 __license__ = 'MIT License'
-__version__ = '0.2.1'
+__version__ = '0.2.2'
 __copyright__ = '2011-2020, Hong Minhee'
 
 __all__ = ('AccessToken', 'Client', 'GitHubService', 'GithubService',
