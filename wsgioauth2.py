@@ -30,7 +30,10 @@ authenticate via the specific `OAuth 2.0`_ service e.g. Facebook_, Google_.
 """
 import base64
 import binascii
-import cgi
+try:
+    from html import escape as html_escape
+except ImporError:
+    from cgi import escape as html_escape
 try:
     import Cookie
 except ImportError:
@@ -551,7 +554,7 @@ class WSGIMiddleware(object):
         h = {'Content-Type': 'text/html; charset=utf-8', 'Location': url}
         h.update(headers)
         start_response('307 Temporary Redirect', list(h.items()))
-        e_url = cgi.escape(url).encode('iso-8859-1')
+        e_url = html_escape(url).encode('iso-8859-1')
         yield b'<!DOCTYPE html>'
         yield b'<html><head><meta charset="utf-8">'
         yield b'<meta http-equiv="refresh" content="0; url='
