@@ -130,7 +130,7 @@ Changelog
 Version 0.2.1
 '''''''''''''
 
-To be released.
+Released on September 3, 2020.
 
 - Fixed a bug that :exc:`ImportError` has raised on Python 3.8.
   [:pull:`12` by Jörg Benesch]
