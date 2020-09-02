@@ -121,7 +121,7 @@ Author
 
 The package is written by `Hong Minhee`_.
 
-.. _Hong Minhee: http://hongminhee.org/
+.. _Hong Minhee: https://hongminhee.org/
 
 
 Changelog
@@ -130,7 +130,10 @@ Changelog
 Version 0.2.1
 '''''''''''''
 
-To be released
+To be released.
+
+- Fixed a bug that :exc:`ImportError` has raised on Python 3.8.
+  [:pull:`12` by Jörg Benesch]
 
 - Fixed a bug that :class:`~wsgioauth2.GitHubService` raises :exc:`KeyError`
   when users who didn't declare their name on GitHub tries to login.
@@ -142,7 +145,7 @@ Version 0.2.0
 
 Released on August 10, 2014.
 
-- Now it bocomes compatible with Python 3.2 or later.
+- Now it becomes compatible with Python 3.2 or later.
 
 
 Version 0.1.4

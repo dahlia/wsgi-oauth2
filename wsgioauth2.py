@@ -32,7 +32,7 @@ import base64
 import binascii
 try:
     from html import escape as html_escape
-except ImporError:
+except ImportError:
     from cgi import escape as html_escape
 try:
     import Cookie
@@ -63,10 +63,10 @@ else:
     from urllib import urlencode
 
 __author__ = 'Hong Minhee'  # http://hongminhee.org/
-__email__ = 'minhee' "@" 'dahlia.kr'
+__email__ = 'hong.minhee' "@" 'gmail.com'
 __license__ = 'MIT License'
 __version__ = '0.2.1'
-__copyright__ = '2011-2014, Hong Minhee'
+__copyright__ = '2011-2020, Hong Minhee'
 
 __all__ = ('AccessToken', 'Client', 'GitHubService', 'GithubService',
            'Service', 'WSGIMiddleware', 'github', 'google', 'facebook')
