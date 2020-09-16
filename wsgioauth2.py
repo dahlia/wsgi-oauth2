@@ -65,7 +65,7 @@ else:
 __author__ = 'Hong Minhee'  # http://hongminhee.org/
 __email__ = 'hong.minhee' "@" 'gmail.com'
 __license__ = 'MIT License'
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 __copyright__ = '2011-2020, Hong Minhee'
 
 __all__ = ('AccessToken', 'Client', 'GitHubService', 'GithubService',
