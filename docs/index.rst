@@ -130,7 +130,7 @@ Changelog
 Version 0.2.2
 '''''''''''''
 
-To be released.
+Released on September 17, 2020.
 
 - Fixed a distribution bug that the :file:`wsgioauth2.py` file was missing.
   [:issue:`14`]
