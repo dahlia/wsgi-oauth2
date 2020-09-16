@@ -132,6 +132,9 @@ Version 0.2.2
 
 To be released.
 
+- Fixed a distribution bug that the :file:`wsgioauth2.py` file was missing.
+  [:issue:`14`]
+
 
 Version 0.2.1
 '''''''''''''
